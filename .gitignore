@@ -1,0 +1,23 @@
+# Configurações de ambiente e chaves privadas
+.env
+
+# Arquivos gerados localmente (dossiês Word)
+output_dossies/*.docx
+!output_dossies/.gitkeep
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+
+# Ambientes virtuais
+.venv/
+venv/
+env/
+ENV/
+
+# Logs e arquivos temporários do sistema
+*.log
+.DS_Store
+Thumbs.db
