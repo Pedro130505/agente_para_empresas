@@ -6,25 +6,35 @@ Gerador automatizado sob demanda de **Dossiês Estratégicos Executivos (3 pági
 
 ## ⚡ Como Usar (Para Qualquer Membro da Equipe)
 
-O agente foi desenhado para ser **100% plug-and-play** no Windows. Você não precisa saber programar nem configurar arquivos manualmente.
+O agente foi desenhado para ser **100% plug-and-play** tanto no **Windows** quanto no **Mac (macOS)**. Você não precisa digitar comandos no terminal nem configurar arquivos manualmente.
 
-### 1️⃣ Instalação Inicial (Apenas na 1ª vez)
-Dê dois cliques no arquivo:
-👉 **`Instalar_Dependencias.bat`**
-*(Ele instalará automaticamente as bibliotecas necessárias do Python).*
+---
 
-### 2️⃣ Gerar Dossiês Estratégicos
-Dê dois cliques no arquivo:
-👉 **`Gerar_Dossie.bat`**
+### 💻 No Windows:
+1. **Instalar Dependências (apenas na 1ª vez):**
+   * Dê dois cliques em: 👉 **`Instalar_Dependencias.bat`**
+2. **Gerar Dossiês:**
+   * Dê dois cliques em: 👉 **`Gerar_Dossie.bat`**
 
-### 3️⃣ Primeiro Uso (Cadastro da Chave de IA)
-No seu primeiro acesso, o terminal solicitará a sua chave gratuita do Google Gemini:
+---
+
+### 🍏 No Mac (macOS):
+1. **Instalar Dependências (apenas na 1ª vez):**
+   * Dê dois cliques em: 👉 **`Instalar_Dependencias_MAC.command`**
+2. **Gerar Dossiês:**
+   * Dê dois cliques em: 👉 **`Gerar_Dossie_MAC.command`**
+   *(Se o Mac exibir aviso de segurança na primeira vez, basta ir em Preferências do Sistema > Segurança e Privacidade > Permitir).*
+
+---
+
+### 🔑 Primeiro Uso (Cadastro da Chave de IA - Ambos os Sistemas)
+No seu primeiro acesso, a janela solicitará a sua chave gratuita do Google Gemini:
 1. Acesse: [Google AI Studio - Chave de API](https://aistudio.google.com/app/apikey)
 2. Faça login com sua conta Google e clique em **"Create API key"**
 3. Cole a chave no terminal e tecle **ENTER**.
 > ✅ **Pronto!** A chave fica salva no seu computador e você **nunca mais precisará digitá-la**.
 
-### 4️⃣ Digite o Nome da Empresa
+### 🏢 Digite o Nome da Empresa
 Basta digitar o nome de qualquer empresa (ex: `Gerdau`, `Localiza`, `Vale`, `Nubank`, `Embraer`, `Seedz`...) e tecle **ENTER**.
 * Em **15 a 25 segundos**, o dossiê completo de 3 páginas será gerado na pasta `output_dossies` e abrirá automaticamente no Word!
 
@@ -63,20 +73,22 @@ Cada dossiê gerado contém exatamente a estrutura executiva aprovada pelo time:
 
 ```text
 agente_para_empresas/
-├── Gerar_Dossie.bat              # Atalho principal de 2 cliques para gerar dossiês
-├── Instalar_Dependencias.bat     # Instalador automático de dependências
-├── main.py                       # Ponto de entrada interativo do agente
-├── ai_analyzer.py                # Integração de IA com Google Gemini (REST)
-├── data_loader.py                # Leitor e unificador de bases de dados (Excel)
-├── docx_generator.py             # Montador do documento Word estilizado (3 páginas)
-├── config.py                     # Configurações globais e modelos
-├── requirements.txt              # Lista de dependências Python
-├── dados (2).xlsx                # Base histórica das edições 2024-2026 da Feira UFMG
-├── feiras_participantes.xlsx     # Base verificada das feiras Poli USP e PUC Minas
-├── Inauguracao_Anual_...docx     # Template institucional de cabeçalho
-├── output_dossies/               # Pasta de saída dos arquivos Word gerados
-├── .env.example                  # Modelo de configuração da chave de API
-└── .gitignore                    # Segurança: impede o envio do .env e arquivos locais
+├── Gerar_Dossie.bat                 # Atalho de 2 cliques para Windows
+├── Instalar_Dependencias.bat        # Instalador de dependências para Windows
+├── Gerar_Dossie_MAC.command         # Atalho de 2 cliques para Mac (macOS)
+├── Instalar_Dependencias_MAC.command # Instalador de dependências para Mac (macOS)
+├── main.py                          # Ponto de entrada interativo do agente
+├── ai_analyzer.py                   # Integração de IA com Google Gemini (REST)
+├── data_loader.py                   # Leitor e unificador de bases de dados (Excel)
+├── docx_generator.py                # Montador do documento Word estilizado (3 páginas)
+├── config.py                        # Configurações globais e modelos
+├── requirements.txt                 # Lista de dependências Python
+├── dados (2).xlsx                   # Base histórica das edições 2024-2026 da Feira UFMG
+├── feiras_participantes.xlsx        # Base verificada das feiras Poli USP e PUC Minas
+├── Inauguracao_Anual_...docx        # Template institucional de cabeçalho
+├── output_dossies/                  # Pasta de saída dos arquivos Word gerados
+├── .env.example                     # Modelo de configuração da chave de API
+└── .gitignore                       # Segurança: impede o envio do .env e arquivos locais
 ```
 
 ---

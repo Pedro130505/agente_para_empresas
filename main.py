@@ -89,11 +89,18 @@ def generate_single_dossier(company_name, companies_list=None, auto_open_prompt=
     print(f"\n✅ DOSSIÊ GERADO COM SUCESSO!")
     print(f"📁 Arquivo: {output_file.resolve()}\n")
 
-    if auto_open_prompt and sys.platform.startswith("win"):
+    if auto_open_prompt:
         try:
             abrir = input("📂 Deseja abrir o documento Word agora? (s/n, padrão s): ").strip().lower()
             if abrir in ["", "s", "sim", "y", "yes"]:
-                os.startfile(output_file.resolve())
+                if sys.platform.startswith("win"):
+                    os.startfile(output_file.resolve())
+                elif sys.platform == "darwin":
+                    import subprocess
+                    subprocess.run(["open", str(output_file.resolve())])
+                elif sys.platform.startswith("linux"):
+                    import subprocess
+                    subprocess.run(["xdg-open", str(output_file.resolve())])
                 print("📄 Abrindo o Word...")
         except Exception:
             pass

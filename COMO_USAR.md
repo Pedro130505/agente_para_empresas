@@ -7,24 +7,32 @@ Este sistema gera automaticamente manuais e dossiês comerciais altamente aprofu
 
 ## 🚀 Como Usar (Para Qualquer Membro da Equipe)
 
-### 1. Primeira vez usando no computador:
-Dê **dois cliques** no arquivo:
-👉 `Instalar_Dependencias.bat`
-*(Ele instalará automaticamente todas as bibliotecas necessárias em menos de 1 minuto).*
+O sistema foi preparado para ser **100% plug-and-play** em ambos os sistemas operacionais:
 
 ---
 
-### 2. Para Gerar um Dossiê:
-Dê **dois cliques** no arquivo:
-👉 `Gerar_Dossie.bat`
+### 💻 No Windows:
+1. **Instalação Inicial (Apenas na 1ª vez):**
+   * Dê dois cliques em: 👉 **`Instalar_Dependencias.bat`**
+2. **Para Gerar um Dossiê:**
+   * Dê dois cliques em: 👉 **`Gerar_Dossie.bat`**
 
-1. A janela abrirá automaticamente no Windows.
-2. Digite o nome da empresa desejada (ex: `Gerdau`, `ArcelorMittal`, `Localiza`, `Vale`, `Stellantis`, etc.) e tecle **ENTER**.
-3. O agente fará a pesquisa, validação factual de feiras e operações, e gerará o documento Word formatado.
-4. Ao final, o sistema perguntará se você quer abrir o Word na hora!
+---
 
-Os arquivos gerados ficam salvos na pasta:
-📁 `output_dossies/`
+### 🍏 No Mac (macOS):
+1. **Instalação Inicial (Apenas na 1ª vez):**
+   * Dê dois cliques em: 👉 **`Instalar_Dependencias_MAC.command`**
+2. **Para Gerar um Dossiê:**
+   * Dê dois cliques em: 👉 **`Gerar_Dossie_MAC.command`**
+   *(Se o Mac exibir aviso de segurança na primeira vez, basta ir em Preferências do Sistema > Segurança e Privacidade > Permitir).*
+
+---
+
+### ⚡ Passo a Passo Geral (Após abrir):
+1. A janela abrirá automaticamente no seu sistema.
+2. No primeiro uso, o sistema pedirá sua chave gratuita do Google Gemini (veja abaixo).
+3. Digite o nome da empresa desejada (ex: `Gerdau`, `Localiza`, `Vale`, `Nubank`, `Embraer`, etc.) e tecle **ENTER**.
+4. Em 15 a 25 segundos, o dossiê completo de 3 páginas é gerado na pasta `output_dossies/` e abre sozinho no Word!
 
 ---
 
