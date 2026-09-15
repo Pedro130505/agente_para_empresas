@@ -51,26 +51,76 @@ st.markdown("""
         color: var(--text-main);
     }
 
-    /* Container Principal */
-    .block-container {
-        padding-top: 2rem !important;
-        padding-bottom: 3rem !important;
-        max-width: 1250px !important;
+    /* Esconde o cabeçalho padrão do Streamlit para controle total do navbar */
+    header[data-testid="stHeader"] {
+        display: none !important;
     }
 
-    /* Hero Banner Executivo */
-    .hero-container {
-        background: linear-gradient(135deg, #024c76 0%, #012b44 100%);
-        border-radius: var(--radius-lg);
-        padding: 32px 36px;
-        color: #ffffff;
-        margin-bottom: 28px;
-        box-shadow: var(--shadow-md);
+    /* Navbar Superior Fixo (Sticky) */
+    .sticky-navbar {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        z-index: 9999;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 2px solid var(--border-color);
+        padding: 12px 36px;
+        margin: -4.5rem -3.5rem 1.8rem -3.5rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        position: relative;
-        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(2, 28, 43, 0.08);
+    }
+
+    .nav-brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .nav-brand img {
+        height: 44px;
+        object-fit: contain;
+    }
+
+    .nav-brand-text {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--azul-escuro);
+        line-height: 1.1;
+    }
+
+    .nav-brand-text span {
+        color: var(--laranja);
+    }
+
+    .nav-brand-sub {
+        display: block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        color: var(--azul-claro);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .nav-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #f0fdf4;
+        border: 1px solid #bbf7d0;
+        color: #166534;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+
+    /* Correção do campo de senha no sidebar para não sobrepor o botão de visibilidade */
+    div[data-baseweb="input"] input {
+        padding-right: 48px !important;
     }
 
     .hero-container::after {
@@ -372,6 +422,26 @@ with st.sidebar:
     st.markdown("---")
     st.caption("© 2026 UFMG Hub · Mercado em Conexão")
     st.caption("Escola de Engenharia da UFMG")
+
+# Navbar Superior Fixo (Sticky) no topo
+st.markdown("""
+<div class="sticky-navbar">
+    <div class="nav-brand">
+        <img src="https://ufmghub.com.br/img/logo-hub.png" alt="UFMG Hub">
+        <div class="nav-brand-text">
+            UFMG <span>Hub</span>
+            <span class="nav-brand-sub">Mercado em Conexão &middot; Inteligência Comercial</span>
+        </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px;">
+        <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Escola de Engenharia da UFMG</span>
+        <div class="nav-pill">
+            <span style="display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%;"></span>
+            Feira de Carreiras 2026
+        </div>
+    </div>
+</div>
+""", unsafe_allow_html=True)
 
 # Hero Banner
 st.markdown("""

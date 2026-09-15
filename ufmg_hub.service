@@ -1,0 +1,15 @@
+[Unit]
+Description=UFMG Hub - Agente de Dossies Comerciais
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/var/www/agente_para_empresas
+EnvironmentFile=/var/www/agente_para_empresas/.env
+ExecStart=/usr/bin/python3 -m streamlit run app_web.py --server.port=8501 --server.address=0.0.0.0 --server.headless=true
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

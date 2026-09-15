@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  ufmg-hub-dossies:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ufmg_hub_dossies
+    restart: always
+    ports:
+      - "8501:8501"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - ./output_dossies:/app/output_dossies
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
