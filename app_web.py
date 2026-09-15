@@ -14,169 +14,310 @@ from docx_generator import generate_one_page_docx
 
 # Configuração da Página do Streamlit
 st.set_page_config(
-    page_title="UFMG Hub — Dossiês Comerciais",
+    page_title="UFMG Hub — Inteligência Comercial",
     page_icon="https://ufmghub.com.br/img/logo-hub.png",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Estilização CSS Oficial UFMG Hub (Cores extraídas de ufmghub.com.br)
+# Estilização CSS Enterprise & Responsiva (UFMG Hub Brand Guidelines)
 st.markdown("""
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-    /* Tipografia e cores base */
-    html, body, [class*="css"], .stMarkdown, p, div, span, label {
-        font-family: 'Lexend', -apple-system, BlinkMacSystemFont, sans-serif !important;
-    }
-    
     :root {
         --azul-escuro: #024c76;
+        --azul-profundo: #01324e;
         --azul-claro: #57a0bc;
         --laranja: #f6a21c;
+        --laranja-hover: #e08f12;
         --quase-preto: #0a1c2b;
-        --bg-light: #f5f8fa;
+        --bg-light: #f8fafc;
+        --bg-card: #ffffff;
         --text-main: #16313f;
-        --text-muted: #5e7682;
-        --border-color: #e1eaef;
-        --radius-md: 14px;
-        --shadow-sm: 0 4px 16px -4px rgba(2, 28, 43, 0.08);
+        --text-muted: #64748b;
+        --border-color: #e2e8f0;
+        --radius-lg: 16px;
+        --radius-md: 10px;
+        --shadow-sm: 0 2px 8px rgba(2, 76, 118, 0.06);
+        --shadow-md: 0 8px 24px -4px rgba(2, 76, 118, 0.10);
+        --shadow-lg: 0 16px 36px -6px rgba(2, 76, 118, 0.16);
     }
-    
-    /* Cabeçalho do Hub */
-    .hub-header {
+
+    html, body, [class*="css"], .stMarkdown, p, span, label {
+        font-family: 'Lexend', 'Plus Jakarta Sans', sans-serif !important;
+        color: var(--text-main);
+    }
+
+    /* Container Principal */
+    .block-container {
+        padding-top: 2rem !important;
+        padding-bottom: 3rem !important;
+        max-width: 1250px !important;
+    }
+
+    /* Hero Banner Executivo */
+    .hero-container {
+        background: linear-gradient(135deg, #024c76 0%, #012b44 100%);
+        border-radius: var(--radius-lg);
+        padding: 32px 36px;
+        color: #ffffff;
+        margin-bottom: 28px;
+        box-shadow: var(--shadow-md);
         display: flex;
         align-items: center;
-        gap: 18px;
-        padding: 10px 0 20px 0;
-        border-bottom: 2px solid var(--border-color);
-        margin-bottom: 25px;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
     }
-    
-    .hub-logo {
-        height: 60px;
-        border-radius: 8px;
+
+    .hero-container::after {
+        content: "";
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 220px;
+        height: 220px;
+        background: radial-gradient(circle, rgba(246, 162, 28, 0.22) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
     }
-    
-    .hub-title-container {
-        display: flex;
-        flex-direction: column;
+
+    .hero-content {
+        max-width: 820px;
     }
-    
-    .hub-title {
-        font-size: 2.1rem;
-        font-weight: 800;
-        color: var(--azul-escuro);
-        line-height: 1.15;
-        margin: 0;
-    }
-    
-    .hub-title span.orange {
-        color: var(--laranja);
-    }
-    
-    .hub-tagline {
-        font-size: 0.95rem;
-        font-weight: 400;
-        color: var(--text-muted);
-        letter-spacing: 0.02em;
-        margin-top: 4px;
-    }
-    
-    /* Cartões e Métricas */
-    .hub-card {
-        background-color: var(--bg-light);
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
-        padding: 18px 22px;
-        box-shadow: var(--shadow-sm);
-        margin-bottom: 20px;
-    }
-    
-    .metric-box {
-        background: #ffffff;
-        border-radius: 10px;
-        padding: 14px 18px;
-        border-left: 4px solid var(--azul-escuro);
-        border-top: 1px solid var(--border-color);
-        border-right: 1px solid var(--border-color);
-        border-bottom: 1px solid var(--border-color);
-    }
-    
-    .metric-title {
-        font-size: 0.8rem;
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 20px;
+        padding: 4px 14px;
+        font-size: 0.78rem;
         font-weight: 600;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
-        color: var(--text-muted);
-        margin-bottom: 4px;
+        letter-spacing: 0.06em;
+        color: #f6a21c;
+        margin-bottom: 12px;
     }
-    
-    .metric-value {
-        font-size: 1.15rem;
+
+    .hero-title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #ffffff !important;
+        line-height: 1.2;
+        margin: 0 0 10px 0;
+        letter-spacing: -0.02em;
+    }
+
+    .hero-title span {
+        color: var(--laranja);
+    }
+
+    .hero-subtitle {
+        font-size: 1.05rem;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.88);
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    .hero-logo-box {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 12px 18px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-logo-box img {
+        height: 60px;
+        object-fit: contain;
+    }
+
+    /* Cards de Dados */
+    .company-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 24px;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 24px;
+    }
+
+    .company-card-header {
+        font-size: 1.2rem;
         font-weight: 700;
         color: var(--azul-escuro);
-    }
-    
-    .metric-sub {
-        font-size: 0.85rem;
-        color: var(--laranja);
-        font-weight: 600;
-    }
-    
-    /* Botões */
-    div.stButton > button:first-child {
-        background-color: var(--azul-escuro) !important;
-        color: #ffffff !important;
-        border: none !important;
-        border-radius: 8px !important;
-        font-weight: 700 !important;
-        font-size: 1.05rem !important;
-        padding: 12px 24px !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 4px 14px rgba(2, 76, 118, 0.25) !important;
-    }
-    
-    div.stButton > button:first-child:hover {
-        background-color: var(--quase-preto) !important;
-        transform: translateY(-1px) !important;
-        box-shadow: 0 6px 20px rgba(2, 76, 118, 0.35) !important;
-    }
-    
-    /* Botão de Download Laranja Destaque */
-    div[data-testid="stDownloadButton"] > button {
-        background-color: var(--laranja) !important;
-        color: #ffffff !important;
-        border: none !important;
-        border-radius: 8px !important;
-        font-weight: 700 !important;
-        font-size: 1.1rem !important;
-        padding: 14px 28px !important;
-        box-shadow: 0 4px 14px rgba(246, 162, 28, 0.35) !important;
-    }
-    
-    div[data-testid="stDownloadButton"] > button:hover {
-        background-color: #e08f12 !important;
-        transform: translateY(-1px) !important;
-        box-shadow: 0 6px 20px rgba(246, 162, 28, 0.45) !important;
-    }
-    
-    /* Abas */
-    .stTabs [data-baseweb="tab-list"] {
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
         gap: 8px;
     }
-    
-    .stTabs [data-baseweb="tab"] {
-        border-radius: 8px 8px 0 0;
-        font-weight: 600;
-        color: var(--text-muted);
+
+    .stat-box {
+        background: var(--bg-light);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        padding: 14px 16px;
+        text-align: center;
+        transition: all 0.2s ease;
     }
-    
+
+    .stat-box:hover {
+        border-color: var(--azul-claro);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        letter-spacing: 0.05em;
+        margin-bottom: 4px;
+    }
+
+    .stat-value {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--azul-escuro);
+        line-height: 1.2;
+    }
+
+    .badge-sim {
+        display: inline-block;
+        background: #e6f6ed;
+        color: #0f7642;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+
+    .badge-nao {
+        display: inline-block;
+        background: #f1f5f9;
+        color: #64748b;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .badge-cota {
+        display: inline-block;
+        background: #fff6e8;
+        border: 1px solid #fed7aa;
+        color: #c2410c;
+        padding: 2px 8px;
+        border-radius: 6px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        margin-top: 4px;
+    }
+
+    /* Botão Principal Estilizado */
+    div.stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #024c76 0%, #01324e 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 10px !important;
+        padding: 16px 28px !important;
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.01em !important;
+        box-shadow: 0 4px 16px rgba(2, 76, 118, 0.28) !important;
+        transition: all 0.25s ease !important;
+        width: 100% !important;
+    }
+
+    div.stButton > button[kind="primary"]:hover {
+        background: linear-gradient(135deg, #035b8d 0%, #024369 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 24px rgba(2, 76, 118, 0.38) !important;
+    }
+
+    /* Botão de Download Destaque Laranja */
+    div[data-testid="stDownloadButton"] > button {
+        background: linear-gradient(135deg, #f6a21c 0%, #e08f12 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+        border-radius: 10px !important;
+        padding: 16px 28px !important;
+        font-size: 1.15rem !important;
+        font-weight: 800 !important;
+        box-shadow: 0 6px 20px rgba(246, 162, 28, 0.35) !important;
+        transition: all 0.25s ease !important;
+        width: 100% !important;
+    }
+
+    div[data-testid="stDownloadButton"] > button:hover {
+        background: linear-gradient(135deg, #ffae2b 0%, #e69314 100%) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 10px 28px rgba(246, 162, 28, 0.48) !important;
+    }
+
+    /* Abas Customizadas */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 6px;
+        background: #f1f5f9;
+        padding: 6px;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 8px;
+        padding: 10px 18px;
+        font-weight: 600;
+        font-size: 0.92rem;
+        color: var(--text-muted);
+        transition: all 0.2s ease;
+    }
+
     .stTabs [aria-selected="true"] {
+        background: #ffffff !important;
         color: var(--azul-escuro) !important;
-        border-bottom-color: var(--laranja) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Pitch Card */
+    .pitch-quote {
+        background: #f0f7fb;
+        border-left: 5px solid var(--azul-escuro);
+        border-radius: 0 10px 10px 0;
+        padding: 18px 22px;
+        font-style: italic;
+        font-size: 1.02rem;
+        line-height: 1.6;
+        color: var(--azul-profundo);
+        margin: 12px 0;
+    }
+
+    /* Responsividade Mobile */
+    @media (max-width: 768px) {
+        .hero-container {
+            flex-direction: column;
+            text-align: center;
+            padding: 24px 20px;
+        }
+        .hero-logo-box {
+            margin-top: 18px;
+        }
+        .hero-title {
+            font-size: 1.7rem;
+        }
+        .hero-subtitle {
+            font-size: 0.95rem;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -192,42 +333,56 @@ except Exception:
 if not default_key:
     default_key = os.getenv("GEMINI_API_KEY") or GEMINI_API_KEY
 
-# Barra Lateral: Configurações de IA
-st.sidebar.image("https://ufmghub.com.br/img/logo-hub.png", width=110)
-st.sidebar.markdown("### ⚙️ Conexão de IA")
+# Barra Lateral: Inteligência e Conexão
+with st.sidebar:
+    st.image("https://ufmghub.com.br/img/logo-hub.png", width=140)
+    st.markdown("### ⚙️ Painel de Controle")
+    
+    user_key = st.text_input(
+        "Chave Google Gemini (API Key):",
+        value=default_key,
+        type="password",
+        help="Chave gratuita gerada em aistudio.google.com/app/apikey"
+    )
+    
+    if user_key and user_key.strip():
+        os.environ["GEMINI_API_KEY"] = user_key.strip()
+        st.success("🟢 IA Pronta: Gemini 3.6 Flash")
+    else:
+        st.warning("⚠️ Chave não detectada. Adicione sua chave gratuita abaixo.")
+        
+    st.markdown("---")
+    
+    # Status da Base
+    st.markdown("#### 📊 Base de Inteligência")
+    st.markdown("""
+    * **52 Empresas Mapeadas:** Histórico 2024, 2025 e 2026.
+    * **Feiras Verificadas:** Workshop Integrativo (Poli USP) e PUC Carreiras (PUC Minas).
+    * **Dossiê Padrão:** 3 Páginas Executivas em Word (.docx).
+    """)
+    
+    st.markdown("---")
+    st.markdown("#### 🔑 Como pegar a chave grátis:")
+    st.markdown("""
+    1. Acesse: [Google AI Studio](https://aistudio.google.com/app/apikey)
+    2. Clique em **'Create API key'**
+    3. Cole o código no campo acima!
+    """)
+    
+    st.markdown("---")
+    st.caption("© 2026 UFMG Hub · Mercado em Conexão")
+    st.caption("Escola de Engenharia da UFMG")
 
-user_key = st.sidebar.text_input(
-    "Chave Google Gemini (API Key):",
-    value=default_key,
-    type="password",
-    help="Chave gratuita gerada em aistudio.google.com/app/apikey"
-)
-
-if user_key and user_key.strip():
-    os.environ["GEMINI_API_KEY"] = user_key.strip()
-    st.sidebar.success("🟢 Inteligência Artificial Ativa")
-else:
-    st.sidebar.warning("⚠️ Chave não configurada. Empresas fora da base usarão dados gerais.")
-
-st.sidebar.markdown("---")
-st.sidebar.markdown("#### 💡 Obter Chave Gratuita:")
-st.sidebar.markdown("""
-1. Acesse [Google AI Studio](https://aistudio.google.com/app/apikey)
-2. Clique em **'Create API key'**
-3. Cole o código no campo acima!
-""")
-
-st.sidebar.markdown("---")
-st.sidebar.markdown("**UFMG Hub · Mercado em Conexão**")
-st.sidebar.caption("Escola de Engenharia da UFMG")
-
-# Cabeçalho Principal Estilo UFMG Hub
+# Hero Banner
 st.markdown("""
-<div class="hub-header">
-    <img src="https://ufmghub.com.br/img/logo-hub.png" class="hub-logo" alt="UFMG Hub Logo">
-    <div class="hub-title-container">
-        <h1 class="hub-title">UFMG <span class="orange">Hub</span> &middot; Inteligência Comercial</h1>
-        <span class="hub-tagline">Conexão &middot; Ação &middot; Inovação &mdash; Dossiês Estratégicos para a Feira de Carreiras</span>
+<div class="hero-container">
+    <div class="hero-content">
+        <div class="hero-badge">🎓 Escola de Engenharia da UFMG &middot; Mercado em Conexão</div>
+        <h1 class="hero-title">Dossiês Estratégicos de <span>Patrocínio</span></h1>
+        <p class="hero-subtitle">Inteligência comercial B2B para prospecção ativa, reuniões de vendas e retenção de empresas parceiras na Feira de Carreiras.</p>
+    </div>
+    <div class="hero-logo-box">
+        <img src="https://ufmghub.com.br/img/logo-hub.png" alt="UFMG Hub">
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -240,59 +395,104 @@ def get_cached_companies():
 companies_list = get_cached_companies()
 company_names = sorted([c["nome"] for c in companies_list if c.get("nome")])
 
-col_select, col_custom = st.columns([1.2, 1])
+# Card de Seleção e Busca
+st.markdown("<div class='company-card'>", unsafe_allow_html=True)
+st.markdown("<div class='company-card-header'>🔍 Selecionar Empresa para Geração do Dossiê</div>", unsafe_allow_html=True)
 
-with col_select:
-    empresa_selecionada = st.selectbox(
-        "🏢 Selecione uma empresa cadastrada da Feira UFMG:",
-        options=["-- Selecionar da base histórica --"] + company_names,
-        index=0
-    )
+tab_busca1, tab_busca2 = st.tabs(["🏢 Escolher da Base da Feira UFMG (52 Mapeadas)", "✍️ Digitar Qualquer Outra Empresa (Nova Prospecção)"])
 
-with col_custom:
-    empresa_digitada = st.text_input(
-        "✍️ Ou digite o nome de QUALQUER empresa para prospecção:",
-        placeholder="Ex: Nubank, Embraer, Ambev, Banco Inter, Totvs..."
-    )
-
-# Define qual empresa será pesquisada
 nome_final = ""
-if empresa_digitada.strip():
-    nome_final = empresa_digitada.strip()
-elif empresa_selecionada != "-- Selecionar da base histórica --":
-    nome_final = empresa_selecionada
 
-# Exibe card de dados se houver empresa selecionada
+with tab_busca1:
+    col_sel, col_btn_clear = st.columns([4, 1])
+    with col_sel:
+        empresa_selecionada = st.selectbox(
+            "Selecione uma empresa cadastrada:",
+            options=["-- Selecione uma empresa --"] + company_names,
+            index=0,
+            label_visibility="collapsed"
+        )
+    if empresa_selecionada != "-- Selecione uma empresa --":
+        nome_final = empresa_selecionada
+
+with tab_busca2:
+    empresa_digitada = st.text_input(
+        "Digite o nome da empresa desejada:",
+        placeholder="Ex: Nubank, Embraer, Ambev, Banco Inter, Totvs, Cargill...",
+        label_visibility="collapsed"
+    )
+    if empresa_digitada.strip():
+        nome_final = empresa_digitada.strip()
+
+st.markdown("</div>", unsafe_allow_html=True)
+
+# Exibe card detalhado se uma empresa for selecionada
 if nome_final:
     comp_info = find_or_create_company(nome_final, companies_list)
     
-    st.markdown("<div class='hub-card'>", unsafe_allow_html=True)
-    c1, c2, c3, c4 = st.columns(4)
+    st.markdown("<div class='company-card'>", unsafe_allow_html=True)
+    st.markdown(f"<div class='company-card-header'>📊 Diagnóstico Histórico: <span style='color: var(--laranja);'>{comp_info['nome']}</span></div>", unsafe_allow_html=True)
     
-    with c1:
-        st.markdown(f"<div class='metric-box'><div class='metric-title'>Empresa</div><div class='metric-value'>{comp_info['nome']}</div><div class='metric-sub'>{comp_info.get('origem', 'Base UFMG')}</div></div>", unsafe_allow_html=True)
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.markdown(f"""
+        <div class="stat-box">
+            <div class="stat-label">Origem do Lead</div>
+            <div class="stat-value" style="font-size: 1rem;">{comp_info.get('origem', 'Base UFMG')}</div>
+            <span class="badge-cota">{comp_info.get('cota_2026', 'A Prospectar')}</span>
+        </div>
+        """, unsafe_allow_html=True)
         
-    with c2:
+    with col2:
         part_24 = comp_info.get('participou_2024', 'Não')
-        cota_24 = comp_info.get('cota_2024', 'N/A')
-        st.markdown(f"<div class='metric-box'><div class='metric-title'>Edição 2024</div><div class='metric-value'>{part_24}</div><div class='metric-sub'>Cota: {cota_24}</div></div>", unsafe_allow_html=True)
+        badge_24 = "badge-sim" if part_24.lower() == "sim" else "badge-nao"
+        st.markdown(f"""
+        <div class="stat-box">
+            <div class="stat-label">Edição 2024</div>
+            <div><span class="{badge_24}">{part_24}</span></div>
+            <div class="stat-label" style="margin-top: 6px;">Cota: {comp_info.get('cota_2024', 'N/A')}</div>
+        </div>
+        """, unsafe_allow_html=True)
         
-    with c3:
+    with col3:
         part_25 = comp_info.get('participou_2025', 'Não')
-        cota_25 = comp_info.get('cota_2025', 'N/A')
-        st.markdown(f"<div class='metric-box'><div class='metric-title'>Edição 2025</div><div class='metric-value'>{part_25}</div><div class='metric-sub'>Cota: {cota_25}</div></div>", unsafe_allow_html=True)
+        badge_25 = "badge-sim" if part_25.lower() == "sim" else "badge-nao"
+        st.markdown(f"""
+        <div class="stat-box">
+            <div class="stat-label">Edição 2025</div>
+            <div><span class="{badge_25}">{part_25}</span></div>
+            <div class="stat-label" style="margin-top: 6px;">Cota: {comp_info.get('cota_2025', 'N/A')}</div>
+        </div>
+        """, unsafe_allow_html=True)
         
-    with c4:
+    with col4:
         part_26 = comp_info.get('participou_2026', 'Não')
-        cota_26 = comp_info.get('cota_2026', 'N/A')
-        st.markdown(f"<div class='metric-box'><div class='metric-title'>Edição 2026</div><div class='metric-value'>{part_26}</div><div class='metric-sub'>Cota: {cota_26}</div></div>", unsafe_allow_html=True)
+        badge_26 = "badge-sim" if part_26.lower() == "sim" else "badge-nao"
+        st.markdown(f"""
+        <div class="stat-box">
+            <div class="stat-label">Edição 2026</div>
+            <div><span class="{badge_26}">{part_26}</span></div>
+            <div class="stat-label" style="margin-top: 6px;">Cota: {comp_info.get('cota_2026', 'N/A')}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        
+    if comp_info.get("nome_contato") or comp_info.get("email"):
+        st.markdown(f"""
+        <div style="margin-top: 14px; font-size: 0.88rem; color: #64748b; background: #f1f5f9; padding: 8px 14px; border-radius: 8px;">
+            👤 <strong>Contato Registrado:</strong> {comp_info.get('nome_contato', 'Não informado')} &nbsp;|&nbsp; ✉️ {comp_info.get('email', 'Não informado')}
+        </div>
+        """, unsafe_allow_html=True)
         
     st.markdown("</div>", unsafe_allow_html=True)
 
     # Botão de Ação Principal
-    btn_gerar = st.button("🚀 Gerar Dossiê Estratégico (3 Páginas em Word)", type="primary", use_container_width=True)
-    
+    col_btn, _ = st.columns([1, 0.01])
+    with col_btn:
+        btn_gerar = st.button("🚀 Gerar Dossiê Estratégico Completo (3 Páginas em Word)", type="primary", use_container_width=True)
+        
     if btn_gerar:
+        status_box = st.empty()
         progresso = st.progress(0, text="Iniciando inteligência de mercado...")
         
         try:
@@ -304,15 +504,20 @@ if nome_final:
             progresso.progress(70, text="📝 Estruturando documento Word com padrão executivo e dados de feiras...")
             output_file = generate_one_page_docx(comp_data, ai_data)
             
-            progresso.progress(100, text="✅ Dossiê concluído!")
+            progresso.progress(100, text="✅ Dossiê concluído com sucesso!")
             st.balloons()
             
             with open(output_file, "rb") as f:
                 docx_bytes = f.read()
                 
-            st.success(f"🎉 Dossiê Estratégico de **{nome_final}** pronto para uso!")
+            st.markdown(f"""
+            <div style="background: #e6f6ed; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px; text-align: center; margin: 20px 0;">
+                <h3 style="color: #0f7642; margin: 0 0 6px 0;">🎉 Dossiê Estratégico de {nome_final} Pronto!</h3>
+                <p style="color: #166534; margin: 0;">O documento executivo de 3 páginas foi formatado e está pronto para subsidiar sua reunião.</p>
+            </div>
+            """, unsafe_allow_html=True)
             
-            # Botão de Download Laranja Oficial
+            # Botão de Download Destaque Laranja
             st.download_button(
                 label=f"📥 Baixar Dossiê Executivo de {nome_final} (.docx)",
                 data=docx_bytes,
@@ -322,20 +527,20 @@ if nome_final:
                 use_container_width=True
             )
             
-            # Abas com Resumo Visual
-            st.markdown("### 📋 Síntese Executiva para Reunião Comercial:")
+            # Síntese Executiva em Abas
+            st.markdown("<br><h4 style='color: var(--azul-escuro);'>📋 Síntese Executiva para a Reunião Comercial:</h4>", unsafe_allow_html=True)
             tab1, tab2, tab3, tab4 = st.tabs([
-                "1.0 Visão Geral & Concorrentes",
-                "2.0 Presença em Minas Gerais & BH",
-                "5.0 Feiras Verificadas (Poli USP & PUC)",
-                "7.0 Playbook de Vendas & Objeções"
+                "🏢 1.0 Visão Geral & Concorrentes",
+                "🏭 2.0 Presença em Minas Gerais & BH",
+                "📊 5.0 Feiras Verificadas (Poli USP & PUC)",
+                "🎯 7.0 Playbook de Vendas & Objeções"
             ])
             
             with tab1:
-                st.write(ai_data.get("resumo_extenso", "Informação disponível no arquivo Word."))
+                st.markdown(f"<div style='background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;'>{ai_data.get('resumo_extenso', 'Informação disponível no Word.')}</div>", unsafe_allow_html=True)
                 
             with tab2:
-                st.write(ai_data.get("atuacao_bh_mg_detalhada", "Informação disponível no arquivo Word."))
+                st.markdown(f"<div style='background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;'>{ai_data.get('atuacao_bh_mg_detalhada', 'Informação disponível no Word.')}</div>", unsafe_allow_html=True)
                 
             with tab3:
                 feiras_tab = ai_data.get("outras_feiras_tabela", [])
@@ -345,30 +550,31 @@ if nome_final:
                     st.info("Sem registro prévio nas feiras da Poli USP e PUC Minas.")
                     
             with tab4:
-                st.markdown("**Ganchos de Abertura:**")
+                st.markdown("**🎯 Ganchos de Abertura:**")
                 for g in ai_data.get("guia_reuniao_ganchos", []):
                     st.markdown(f"- {g}")
                     
-                st.markdown("**Pitch de Valor B2B:**")
-                st.info(ai_data.get("guia_reuniao_pitch", ""))
+                st.markdown("**💬 Discurso de Valor B2B (Pitch):**")
+                st.markdown(f"<div class='pitch-quote'>{ai_data.get('guia_reuniao_pitch', '')}</div>", unsafe_allow_html=True)
                 
-                st.markdown("**Matriz de Quebra de Objeções:**")
+                st.markdown("**🛡️ Matriz de Quebra de Objeções:**")
                 obj_list = ai_data.get("guia_reuniao_objecoes", [])
                 for item in obj_list:
                     with st.expander(f"❌ Objeção: {item.get('objecao', '')}"):
-                        st.write(f"💡 **Resposta recomendada:** {item.get('resposta', '')}")
+                        st.markdown(f"💡 **Resposta recomendada:** {item.get('resposta', '')}")
 
         except Exception as e:
-            st.error(f"Ocorreu um erro ao gerar o dossiê: {e}")
+            st.error(f"Ocorreu um erro ao processar: {e}")
             progresso.empty()
 
 else:
-    st.info("👈 Selecione uma empresa acima ou digite o nome de qualquer organização para iniciar a análise.")
+    st.info("👈 Selecione uma empresa na lista ou digite o nome de qualquer organização acima para iniciar o dossiê.")
 
+# Rodapé Oficial
 st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
-<div style="text-align: center; color: #5e7682; font-size: 0.85rem; border-top: 1px solid #e1eaef; padding-top: 20px;">
-    © 2026 UFMG Hub &middot; Mercado em Conexão &middot; Escola de Engenharia da UFMG<br>
-    Unindo a tradição acadêmica da UFMG à inovação prática do mercado corporativo.
+<div style="text-align: center; color: #64748b; font-size: 0.88rem; border-top: 1px solid #e2e8f0; padding-top: 24px;">
+    <strong>UFMG Hub &middot; Mercado em Conexão</strong> &middot; Escola de Engenharia da UFMG<br>
+    <span style="font-size: 0.8rem; color: #94a3b8;">Unindo a tradição acadêmica da UFMG à inovação prática do mercado corporativo.</span>
 </div>
 """, unsafe_allow_html=True)
