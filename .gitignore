@@ -19,5 +19,6 @@ ENV/
 
 # Logs e arquivos temporários do sistema
 *.log
+*.zip
 .DS_Store
 Thumbs.db
