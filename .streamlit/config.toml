@@ -4,3 +4,10 @@ gatherUsageStats = false
 [server]
 headless = false
 enableCORS = false
+
+[theme]
+primaryColor = "#024c76"
+backgroundColor = "#ffffff"
+secondaryBackgroundColor = "#f5f8fa"
+textColor = "#16313f"
+font = "sans serif"
