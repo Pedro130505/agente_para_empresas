@@ -396,7 +396,15 @@ with st.sidebar:
     )
     
     if user_key and user_key.strip():
-        os.environ["GEMINI_API_KEY"] = user_key.strip()
+        cleaned_key = user_key.strip()
+        os.environ["GEMINI_API_KEY"] = cleaned_key
+        try:
+            env_path = Path(".env")
+            current_env = env_path.read_text(encoding="utf-8") if env_path.exists() else ""
+            if f"GEMINI_API_KEY={cleaned_key}" not in current_env:
+                env_path.write_text(f"GEMINI_API_KEY={cleaned_key}\n", encoding="utf-8")
+        except Exception:
+            pass
         st.success("🟢 IA Pronta: Gemini 3.6 Flash")
     else:
         st.warning("⚠️ Chave não detectada. Adicione sua chave gratuita abaixo.")
