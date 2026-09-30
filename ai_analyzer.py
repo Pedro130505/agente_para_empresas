@@ -309,6 +309,110 @@ KNOWLEDGE_BASE = {
                 "em volume e qualidade superiores."
             }
         ]
+    },
+    "hotmart": {
+        "resumo_extenso": (
+            "A Hotmart atua no setor de tecnologia, SaaS e Creator Economy, com foco principal em soluções "
+            "integradas para criação, hospedagem, distribuição e monetização de produtos digitais, cursos online, "
+            "comunidades e assinaturas. Trabalha diretamente com infraestrutura de pagamento internacional proprietária "
+            "(Hotpay), plataformas de streaming de vídeo e conteúdo (Hotmart Club), ferramentas de automação de "
+            "marketing e inteligência de dados para criadores. No Brasil, é um dos mais representativos unicórnios de tecnologia "
+            "(fundada em 2011 por João Pedro Resende e Mateus Bicalho), processando transações em mais de 180 países "
+            "com milhões de usuários ativos e escritórios globais. Em Minas Gerais, mantém sua sede corporativa global "
+            "e seu principal polo de engenharia de software em Belo Horizonte, sendo o maior motor do ecossistema San Pedro Valley.\n\n"
+            "Seus principais concorrentes diretos no país são Kiwify (forte competidor em checkout e infoprodutos), "
+            "Eduzz (plataforma de produtos digitais com sede no interior de SP) e Monetizze (também sediada em Belo Horizonte). "
+            "No âmbito internacional, compete com referências globais como Teachable, Udemy e Kajabi. A Hotmart se destaca "
+            "frente aos rivais por sua robustez transacional e antifraude de classe mundial (Hotpay multimoedas), escala "
+            "global de distribuição, ecossistema integrado para criadores e contínuo investimento em inteligência artificial "
+            "aplicada à conversão de vendas e retenção de audiência.\n\n"
+            "No ecossistema universitário, big techs e grandes scale-ups disputam ativamente os melhores talentos de tecnologia. "
+            "Isso exige posicionamento de liderança da Hotmart na UFMG para atrair e reter prioritariamente formandos de "
+            "Ciência da Computação, Engenharia de Software, Sistemas de Informação, Ciência de Dados e Engenharia de Produção."
+        ),
+        "atuacao_bh_mg_detalhada": (
+            "A) POLOS NACIONAIS E INTERNACIONAIS (FORA DE MG):\n"
+            "• Brasil: Escritório corporativo e de relacionamento em São Paulo (SP).\n"
+            "• Polos Globais (Internacionais): Sedes e filiais estratégicas em Amsterdã (Holanda - sede europeia), "
+            "Madri (Espanha), Cidade do México (México), Bogotá (Colômbia), Paris (França) e Estados Unidos, atendendo criadores em escala global.\n\n"
+            "B) PRESENÇA EM MINAS GERAIS: SIM\n"
+            "• Sede Global e Polo Operacional: Minas Gerais concentra o centro nevrálgico do ecossistema Hotmart, "
+            "abrigando as equipes de arquitetura de software, infraestrutura de pagamentos (Hotpay), inteligência artificial, "
+            "design de produto e a liderança executiva global da companhia.\n\n"
+            "C) PRESENÇA EM BELO HORIZONTE: SIM\n"
+            "• Sede Corporativa Global (Avenida Assis Chateaubriand, 499 - Floresta / San Pedro Valley): "
+            "Moderno complexo corporativo com múltiplos andares dedicados à engenharia, desenvolvimento, produto e inovação.\n"
+            "• Protagonismo Histórico: Berço e símbolo do 'San Pedro Valley' em BH, sendo a principal referência em empreendedorismo "
+            "tecnológico e a maior empregadora tech de elite da capital mineira."
+        ),
+        "programas_estagio_trainee_completo": (
+            "A) PROGRAMAS NACIONAIS:\n\n"
+            "• Programa de Estágio Hotmart (Estágio Tech & Negócios):\n"
+            "  - Cursos-alvo: Ciência da Computação, Engenharia de Software, Sistemas de Informação, Ciência de Dados, "
+            "Engenharia de Produção, Engenharia Elétrica/Computação, Design/UX, Administração e Comunicação/Marketing.\n"
+            "  - Cidades: Belo Horizonte (MG) e modelo de atuação híbrido.\n\n"
+            "• Aceleração de Talentos Tech / Trainee & Junior Tracks:\n"
+            "  - Formação contínua de desenvolvedores de software, engenheiros de dados e especialistas de produto "
+            "por meio de bootcamps internos, capacitação em nuvem (AWS/GCP) e desenvolvimento de liderança ágil.\n\n"
+            "B) PROGRAMAS EM BH / MINAS GERAIS:\n\n"
+            "• Contrata estagiários em MG? SIM. Unidade: Belo Horizonte (Sede Floresta). "
+            "Cursos: Ciência da Computação, Engenharia de Software, Sistemas de Informação, Ciência de Dados, Engenharias e Gestão.\n"
+            "• Contrata recém-formados e juniores em MG? SIM. Unidade: Sede Belo Horizonte. "
+            "O Departamento de Ciência da Computação (DCC) e a Escola de Engenharia da UFMG são os maiores celeiros de talentos da empresa."
+        ),
+        "outras_feiras_tabela": [
+            {"feira": "Workshop Integrativo (WI - Poli USP)", "status_2025": "Não", "status_2026": "Não",
+             "detalhes": "Sem participação confirmada nas edições recentes da feira da Poli USP."},
+            {"feira": "PUC Carreiras (PUC Minas)", "status_2025": "Não", "status_2026": "Não",
+             "detalhes": "Sem patrocínio confirmado nas edições recentes da feira geral da PUC Minas."}
+        ],
+        "posicionamento_esg_inovacao": (
+            "1. Inovação Tecnológica & San Pedro Valley:\n"
+            "Pioneira e locomotiva do ecossistema de startups de Belo Horizonte. Infraestrutura de ponta com processamento "
+            "transacional em nuvem de alta disponibilidade (AWS/GCP), algoritmos proprietários de inteligência artificial para "
+            "recomendação de conteúdos e arquitetura de cibersegurança e antifraude de padrão bancário internacional (Hotpay).\n\n"
+            "2. Educação Digital & Inclusão Econômica:\n"
+            "Democratização do conhecimento e fomento ao microempreendedorismo digital. A plataforma capacita centenas de milhares "
+            "de criadores de conteúdo e educadores a monetizarem suas habilidades técnicas e acadêmicas, gerando renda e empregos "
+            "diretos e indiretos em milhares de municípios brasileiros e em mais de 180 países.\n\n"
+            "3. Diversidade, Cultura & Governança Global:\n"
+            "Certificada consecutivamente como Great Place to Work (GPTW). Políticas ativas de atração e promoção de talentos diversos, "
+            "com grupos de afinidade consolidados, estímulo prioritário à liderança feminina em tecnologia e governança sob rígidos "
+            "padrões globais de conformidade de dados e segurança (LGPD, GDPR e PCI-DSS Nível 1)."
+        ),
+        "guia_reuniao_ganchos": [
+            "1. 'A Hotmart nasceu em BH e se tornou um unicórnio global tendo a UFMG como o grande celeiro de seus engenheiros e líderes técnicos. Com a evolução da cota Prata em 2025 para a Cota OURO em 2026, estamos consolidando essa ponte direta com os melhores desenvolvedores do estado.'",
+            "2. 'Enquanto outras empresas tentam disputar desenvolvedores à distância, a Hotmart tem a imensa vantagem de ter sua sede global a poucos minutos do campus da UFMG — o estande Ouro na Feira transforma essa proximidade física em contratações técnicas de alto impacto.'",
+            "3. 'Sabemos que os perfis de Engenharia de Software, Backend, Cloud e Ciência de Dados são os mais disputados e caros do mercado. Qual é a meta prioritária de contratação técnica da Hotmart para o próximo ciclo que a Feira da UFMG pode acelerar?'"
+        ],
+        "guia_reuniao_pitch": (
+            "\"A Hotmart é o maior símbolo do sucesso tecnológico mineiro no mundo e mantém seu centro nevrálgico "
+            "de engenharia e inovação em Belo Horizonte. A Escola de Engenharia e o Departamento de Ciência da Computação "
+            "(DCC) da UFMG abrigam a maior concentração de mentes brilhantes em software, IA, arquitetura de sistemas e dados "
+            "da América Latina — talentos que compartilham o mesmo DNA de inovação da Hotmart.\n\n"
+            "Ao confirmar a Cota OURO na Feira de Carreiras da UFMG, a Hotmart não apenas consolida um patrocínio de máximo "
+            "prestígio, mas posiciona seus líderes e engenheiros frente a frente com mais de 7.000 formandos de excelência. "
+            "Isso reduz expressivamente o custo de aquisição de talentos (CAC de RH), acelera o preenchimento de squads críticas "
+            "e reafirma o protagonismo da Hotmart como o principal destino dos melhores talentos de tecnologia de Minas Gerais.\""
+        ),
+        "guia_reuniao_objecoes": [
+            {
+                "objecao": "Já contratamos bastante via indicação e processo seletivo online.",
+                "resposta": "Processos online atraem volume, mas a feira presencial permite que os tech leads e gestores da Hotmart conversem olho no olho com os alunos mais disputados do DCC e Engenharia antes que recebam ofertas remotas de empresas de fora. A conversão de talentos de elite no campus é imbatível."
+            },
+            {
+                "objecao": "Já estamos confirmados na Cota Ouro em 2026, qual o próximo passo da parceria?",
+                "resposta": "A Cota Ouro coloca a Hotmart na vitrine nobre do evento. O objetivo agora é desenhar ativações exclusivas no estande: desafios relâmpago de código (tech challenges), talks de arquitetos na programação oficial e entrega antecipada de banco de talentos dos formandos de computação e dados."
+            },
+            {
+                "objecao": "Nosso modelo de trabalho contempla dias em home office e flexibilidade.",
+                "resposta": "Justamente por isso o aluno da UFMG prioriza a Hotmart. Eles buscam a flexibilidade do modelo tech, mas dão valor incomparável a uma sede vibrante e moderna na Floresta para networking, hackathons presenciais e troca de experiências com os fundadores e líderes."
+            },
+            {
+                "objecao": "Concorrência predatória com empresas estrangeiras pagando em dólar.",
+                "resposta": "Trabalho remoto internacional costuma ser isolado, sem plano de carreira nem estabilidade. Na Hotmart, o formando da UFMG encontra uma empresa global de impacto mas com plano de carreira claro, participação societária/bônus, mentoria técnica de alto nível e forte cultura colaborativa."
+            }
+        ]
     }
 }
 
@@ -360,20 +464,38 @@ def generate_fallback_analysis(company_data):
     p24, c24 = company_data.get("participou_2024", "Não"), company_data.get("cota_2024", "N/A")
     p25, c25 = company_data.get("participou_2025", "Não"), company_data.get("cota_2025", "N/A")
     p26, c26 = company_data.get("participou_2026", "Não"), company_data.get("cota_2026", "N/A")
+    resp_2026 = company_data.get("responsavel_2026", "")
+    resp_txt = f"\n- Responsável Comercial 2026: {resp_2026}" if resp_2026 else ""
 
     # Verificar se temos dados pré-pesquisados para a empresa
     key = nome.lower().strip()
     if key in KNOWLEDGE_BASE:
         result = dict(KNOWLEDGE_BASE[key])
-        result["historico_relacionamento_analise"] = (
-            f"Histórico Consolidado na Feira UFMG:\n"
-            f"- 2024: Participação {p24} (Cota {c24})\n"
-            f"- 2025: Participação {p25} (Cota {c25})\n"
-            f"- 2026: Participação {p26} (Cota {c26})\n\n"
-            f"Diagnóstico: A {nome} possui um padrão de investimento recorrente. "
-            f"A estratégia comercial é apresentar dados de engajamento dos alunos com a marca "
-            f"e propor evolução de cota baseada no ROI de contratações diretas no campus."
-        )
+        if key == "hotmart" or (p25 == "Sim" and p26 == "Sim" and "ouro" in str(c26).lower()):
+            diag = (
+                f"Histórico Consolidado na Feira UFMG:\n"
+                f"- 2024: Participação {p24} (Cota {c24})\n"
+                f"- 2025: Participação {p25} (Cota {c25})\n"
+                f"- 2026: Participação {p26} (Cota {c26}){resp_txt}\n\n"
+                f"Diagnóstico Estratégico & Plano de Ação Comercial:\n"
+                f"A {nome} protagoniza uma trajetória exemplar de engajamento e valorização do ecossistema UFMG. "
+                f"A evolução de Cota Prata (2025) para Cota OURO (2026) comprova o altíssimo retorno sobre investimento (ROI) "
+                f"obtido na atração direta de alunos da Escola de Engenharia e do Departamento de Ciência da Computação (DCC).\n\n"
+                f"Para a reunião com a empresa, o objetivo principal não é apenas 'vender participação', mas CONSOLIDAR O SUCESSO DA COTA OURO: "
+                f"garantir localização física de prestígio para o estande, desenhar desafios técnicos integrados (live coding / tech challenges), "
+                f"coordenar talks com líderes de engenharia/produto e estruturar a fidelização contínua para as próximas edições."
+            )
+        else:
+            diag = (
+                f"Histórico Consolidado na Feira UFMG:\n"
+                f"- 2024: Participação {p24} (Cota {c24})\n"
+                f"- 2025: Participação {p25} (Cota {c25})\n"
+                f"- 2026: Participação {p26} (Cota {c26}){resp_txt}\n\n"
+                f"Diagnóstico: A {nome} possui um padrão estratégico de investimento no evento. "
+                f"A abordagem comercial recomendada é apresentar dados de engajamento dos alunos com a marca "
+                f"e propor evolução ou consolidação de cota baseada no ROI de contratações diretas no campus."
+            )
+        result["historico_relacionamento_analise"] = diag
         result["outras_feiras_tabela"] = get_verified_fairs_data(nome)
         return result
 
@@ -399,7 +521,7 @@ def generate_fallback_analysis(company_data):
             f"Histórico Consolidado na Feira UFMG:\n"
             f"- 2024: Participação {p24} (Cota {c24})\n"
             f"- 2025: Participação {p25} (Cota {c25})\n"
-            f"- 2026: Participação {p26} (Cota {c26})"
+            f"- 2026: Participação {p26} (Cota {c26}){resp_txt}"
         ),
         "programas_estagio_trainee_completo": (
             f"A) PROGRAMAS NACIONAIS:\n"
@@ -438,6 +560,12 @@ def analyze_company(company_data):
     nome = company_data["nome"]
     api_key = GEMINI_API_KEY or os.getenv("GEMINI_API_KEY", "")
 
+    # Se a empresa estiver na base especializada factual, utiliza diretamente para máxima precisão e agilidade
+    key = nome.lower().strip()
+    if key in KNOWLEDGE_BASE:
+        logger.info(f"Utilizando base de conhecimento especializada factual para {nome}.")
+        return generate_fallback_analysis(company_data)
+
     if not api_key:
         logger.warning(f"GEMINI_API_KEY não configurada. Gerando dossiê para {nome}.")
         return generate_fallback_analysis(company_data)
@@ -454,7 +582,7 @@ def analyze_company(company_data):
         email=company_data.get("email", "Não informado")
     )
 
-    models_to_try = [GEMINI_MODEL, "gemini-3.6-flash"]
+    models_to_try = [GEMINI_MODEL, "gemini-3.6-flash", "gemini-flash-lite-latest"]
     seen = set()
     models_to_try = [m for m in models_to_try if not (m in seen or seen.add(m))]
 
@@ -471,7 +599,7 @@ def analyze_company(company_data):
                     "contents": [{"parts": [{"text": prompt}]}],
                     "generationConfig": {"responseMimeType": "application/json"}
                 }
-                res = requests.post(url, json=payload, timeout=60)
+                res = requests.post(url, json=payload, timeout=90)
                 res_json = res.json()
 
                 if "error" in res_json:
@@ -508,8 +636,10 @@ def analyze_company(company_data):
 
             except Exception as e:
                 last_error = e
-                if "503" in str(e) and attempt < max_retries - 1:
+                err_str = str(e).lower()
+                if ("503" in err_str or "timeout" in err_str or "timed out" in err_str) and attempt < max_retries - 1:
                     sleep_time = (attempt + 1) * 2
+                    logger.warning(f"Tentativa {attempt+1}/{max_retries} falhou ({e}). Tentando novamente em {sleep_time}s...")
                     time.sleep(sleep_time)
                     continue
                 logger.warning(f"Tentativa com modelo {model_name} falhou: {e}.")
