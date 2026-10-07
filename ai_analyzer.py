@@ -413,6 +413,99 @@ KNOWLEDGE_BASE = {
                 "resposta": "Trabalho remoto internacional costuma ser isolado, sem plano de carreira nem estabilidade. Na Hotmart, o formando da UFMG encontra uma empresa global de impacto mas com plano de carreira claro, participação societária/bônus, mentoria técnica de alto nível e forte cultura colaborativa."
             }
         ]
+    },
+    "carmeuse": {
+        "resumo_extenso": (
+            "A Carmeuse Brasil atua no setor de mineração e química industrial, sendo subsidiária do Grupo Carmeuse "
+            "(multinacional belga fundada em 1860, líder global na produção de cal e derivados de calcário). "
+            "Trabalha diretamente com cal virgem (óxido de cálcio), cal hidratada (hidróxido de cálcio), calcário calcítico "
+            "e dolomítico britado e reagentes de cálcio essenciais para flotação na mineração de ferro e ouro, "
+            "dessulfuração e escorificação na siderurgia, tratamento de água e efluentes, papel e celulose, e correção agronômica de solo. "
+            "No Brasil, vive um forte ciclo de expansão com investimentos previstos de até R$ 1,9 bilhão em Minas Gerais, "
+            "incluindo a fábrica em Formiga (capacidade de 100 mil t/ano de cal) e a nova planta Apollo III em Uberlândia "
+            "(aporte de R$ 200 milhões na 1ª fase voltado ao agronegócio regional). Em Minas Gerais, mantém sua sede corporativa em Belo Horizonte.\n\n"
+            "Seus principais concorrentes diretos no país são o Grupo Lhoist / Mineração Belocal (multinacional belga rival histórica, "
+            "com plantas em São José da Lapa, Matozinhos e Arcos/MG), Mineração Lapa Vermelha (Pedro Leopoldo/MG), "
+            "Dagoberto Barcellos - DB e Cal Trevo / Ical. A Carmeuse se destaca frente aos rivais pela expertise técnica global "
+            "de mais de 160 anos, pureza e reatividade química superior de seus produtos para siderurgia e mineração, "
+            "novos fornos de alta eficiência energética e integração com silvicultura de eucalipto para descarbonização.\n\n"
+            "No ecossistema universitário de Minas Gerais, grandes mineradoras e indústrias químicas disputam agressivamente os formandos. "
+            "Isso exige presença estratégica da Carmeuse na UFMG para atrair talentos dos cursos de Engenharia de Minas, "
+            "Engenharia Metalúrgica, Engenharia Química, Engenharia Mecânica e Engenharia de Produção, sustentando seu ousado plano de expansão fabril e mineral no estado."
+        ),
+        "atuacao_bh_mg_detalhada": (
+            "A) POLOS NACIONAIS E INTERNACIONAIS (FORA DE MG):\n"
+            "• Internacional: Presença global em mais de 25 países na Europa, Américas, Ásia e África, operando mais de 90 unidades industriais e minas de calcário.\n"
+            "• Brasil / Nacional: Estrutura logística e de distribuição atendendo polos industriais, siderúrgicos e agrícolas em SP, GO, MT e ES.\n\n"
+            "B) PRESENÇA EM MINAS GERAIS: SIM\n"
+            "• Fábrica de Formiga (Formiga - MG, BR-354, Km 501,9): Planta fabril integrada com capacidade de 100 mil t/ano de cal, atendendo indústrias siderúrgicas, mineradoras, celulose e agronegócio.\n"
+            "• Nova Planta Apollo III (Uberlândia - MG): Nova unidade industrial no Distrito Industrial de Uberlândia (investimento de R$ 200 milhões na 1ª fase, operando em 2026), focada em cal agrícola e soluções para cana-de-açúcar, café e grãos.\n"
+            "• Expansão Mineral & Florestal: Aquisições de novas jazidas de calcário e florestas de eucalipto no estado de Minas Gerais para suprimento sustentável.\n\n"
+            "C) PRESENÇA EM BELO HORIZONTE: SIM\n"
+            "• Escritório Central / Sede Corporativa Brasil (Avenida Raja Gabaglia, 1.143 - Luxemburgo, Belo Horizonte - MG): "
+            "Concentra a diretoria executiva, gerência técnica de processos, inteligência de compras, vendas B2B e recursos humanos no Brasil."
+        ),
+        "programas_estagio_trainee_completo": (
+            "A) PROGRAMAS NACIONAIS:\n\n"
+            "• Programa de Estágio Carmeuse Brasil:\n"
+            "  - Cursos-alvo: Engenharia de Minas, Engenharia Metalúrgica, Engenharia Química, Engenharia Mecânica, "
+            "Engenharia de Produção, Engenharia Ambiental, Química Industrial, Administração e Economia.\n"
+            "  - Cidades: Belo Horizonte (MG), Formiga (MG) e Uberlândia (MG).\n\n"
+            "• Formação Técnica & Trainee Operacional:\n"
+            "  - Trilha de aceleração para jovens engenheiros voltada a processos pirometalúrgicos de calcinação, lavra de minas a céu aberto, manutenção industrial e laboratório de ensaios químicos.\n\n"
+            "B) PROGRAMAS EM BH / MINAS GERAIS:\n\n"
+            "• Contrata estagiários em MG? SIM. Unidades: Belo Horizonte (Sede Luxemburgo - áreas corporativas e engenharia), Formiga (planta industrial e mina) e Uberlândia (planta Apollo III).\n"
+            "• Contrata recém-formados em MG? SIM. A Escola de Engenharia da UFMG é a principal universidade do estado na formação de engenheiros de minas, metalurgistas e químicos de alta densidade técnica."
+        ),
+        "outras_feiras_tabela": [
+            {"feira": "Workshop Integrativo (WI - Poli USP)", "status_2025": "Não", "status_2026": "Não",
+             "detalhes": "Sem participação confirmada nas edições recentes da feira da Poli USP."},
+            {"feira": "PUC Carreiras (PUC Minas)", "status_2025": "Não", "status_2026": "Não",
+             "detalhes": "Sem patrocínio confirmado nas edições recentes."}
+        ],
+        "posicionamento_esg_inovacao": (
+            "1. Eficiência Energética & Descarbonização da Cal:\n"
+            "Desenvolvimento de fornos verticais e rotativos de calcinação de alta eficiência térmica com substituição de combustíveis fósseis "
+            "por biomassa renovável (silvicultura própria de eucalipto em MG). Alinhamento global com as metas do Grupo Carmeuse de redução de pegada de carbono e captura de CO2 nos processos térmicos.\n\n"
+            "2. Mineração Responsável & Economia Circular:\n"
+            "Aproveitamento integral do estéril e finos de calcário em britagens e corretivos agrícolas de solo, minimizando a geração de resíduos. "
+            "Lavra a seco sem necessidade de barragens de rejeitos e programas de recuperação contínua de áreas mineradas com espécies nativas do Cerrado e Mata Atlântica.\n\n"
+            "3. Desenvolvimento Regional & Segurança Zero Acidentes:\n"
+            "Compromisso global 'Safety First' com índice zero de acidentes. Investimento contínuo nas comunidades de Formiga, Uberlândia e região Centro-Oeste de MG "
+            "através da Fundação Carmeuse (iniciativas educacionais para crianças e jovens em vulnerabilidade) e qualificação técnica da mão de obra local."
+        ),
+        "guia_reuniao_ganchos": [
+            "1. 'Com o plano de investimento de até R$ 1,9 bilhão em Minas Gerais e a inauguração da nova planta Apollo III em Uberlândia, a Carmeuse está em seu momento mais forte de expansão no país — e a Escola de Engenharia da UFMG é a principal fonte de engenheiros de minas, químicos e metalurgistas do estado.'",
+            "2. 'Sua sede nacional está instalada na Av. Raja Gabaglia aqui em BH, a poucos minutos do campus da UFMG. Ter a marca da Carmeuse presente na Feira de Carreiras conecta diretamente a diretoria com os melhores formandos técnicos antes que eles sejam contratados por grandes mineradoras tradicionais.'",
+            "3. 'Sabemos que concorrentes no mercado de cal e minerais industriais, como Belocal/Lhoist e grandes mineradoras, disputam agressivamente engenheiros de processos e minas. A Feira da UFMG posiciona a Carmeuse como marca empregadora multinacional de ponta perante mais de 7.000 alunos.'"
+        ],
+        "guia_reuniao_pitch": (
+            "\"A Carmeuse é uma potência global na indústria de cal e calcário e está vivendo um dos maiores ciclos de expansão "
+            "de sua história no Brasil, aportando até R$ 1,9 bilhão em Minas Gerais com a nova planta de Uberlândia e a fábrica de Formiga, "
+            "além de manter seu centro corporativo na Raja Gabaglia em Belo Horizonte. Para sustentar esse crescimento, a demanda por engenheiros "
+            "de minas, metalúrgicos, químicos e mecânicos de alta qualidade técnica nunca foi tão estratégica.\n\n"
+            "Ao patrocinar a Feira de Carreiras da UFMG, a Carmeuse coloca sua marca empregadora em evidência direta para os alunos mais bem "
+            "avaliados do Brasil (nota máxima no ENADE). É uma oportunidade única de atrair estagiários e futuros líderes industriais para "
+            "suas plantas e sede em MG, reduzindo o custo de recrutamento e consolidando a Carmeuse como a multinacional de referência para engenheiros de Minas Gerais.\""
+        ),
+        "guia_reuniao_objecoes": [
+            {
+                "objecao": "Somos uma empresa B2B e os alunos não conhecem a marca Carmeuse como conhecem Vale ou Gerdau.",
+                "resposta": "Essa é exatamente a principal razão para estar na Feira. Por ser uma gigante multinacional B2B de origem belga com sede em BH, a presença no evento gera conhecimento imediato de marca empregadora, permitindo que a Carmeuse se apresente diretamente aos estudantes de engenharia de minas e química antes que eles olhem apenas para as grandes mineradoras tradicionais."
+            },
+            {
+                "objecao": "Nossas operações industriais ficam no interior (Formiga e Uberlândia), alunos da UFMG querem ficar em BH.",
+                "resposta": "A sede corporativa e centros de engenharia ficam na Raja Gabaglia em BH. Além disso, muitos alunos de engenharia de minas, metalúrgica e química da UFMG vêm de cidades do interior de MG ou buscam ativamente o ambiente dinâmico de plantas industriais para acelerar o aprendizado prático e o plano de carreira."
+            },
+            {
+                "objecao": "Recrutamos por canais digitais (LinkedIn, Vagas.com).",
+                "resposta": "Canais digitais recebem currículos genéricos, mas a concorrência por engenheiros de minas e químicos de alto nível é ferrenha. O contato presencial com estande na feira permite aos gestores da Carmeuse avaliar perfil, brilho no olho e alinhar cultura com os formandos mais disputados do estado."
+            },
+            {
+                "objecao": "Nunca participamos da Feira da UFMG e não temos verba de patrocínio aprovada no orçamento.",
+                "resposta": "Como a Carmeuse é uma nova prospecção no evento, podemos estruturar uma cota inicial focada em ROI direto de recrutamento, com acesso ao banco de currículos e ativação dirigida especificamente aos cursos de interesse imediato (Minas, Química, Metalúrgica e Mecânica)."
+            }
+        ]
     }
 }
 
@@ -471,7 +564,22 @@ def generate_fallback_analysis(company_data):
     key = nome.lower().strip()
     if key in KNOWLEDGE_BASE:
         result = dict(KNOWLEDGE_BASE[key])
-        if key == "hotmart" or (p25 == "Sim" and p26 == "Sim" and "ouro" in str(c26).lower()):
+        if key == "carmeuse" or (p24 == "Não" and p25 == "Não" and p26 == "Não"):
+            diag = (
+                f"Histórico Consolidado na Feira UFMG:\n"
+                f"- 2024: Participação {p24} (Cota {c24})\n"
+                f"- 2025: Participação {p25} (Cota {c25})\n"
+                f"- 2026: Participação {p26} (Cota {c26}) | Status: Nova Prospecção Estratégica{resp_txt}\n\n"
+                f"Diagnóstico Estratégico & Oportunidade Comercial de Entrada:\n"
+                f"A {nome} figura como uma conta de prospecção prioritária no ecossistema de engenharia da UFMG. "
+                f"Com sede corporativa instalada na Av. Raja Gabaglia em Belo Horizonte e um agressivo plano de expansão "
+                f"de até R$ 1,9 bilhão em Minas Gerais (incluindo a fábrica em Formiga e a nova planta Apollo III em Uberlândia), "
+                f"a empresa vive seu momento mais forte de demanda por talentos técnicos.\n\n"
+                f"Para a reunião comercial, o objetivo principal é a VENDA DE ENTRADA (Cota Bronze ou Prata): demonstrar como a "
+                f"presença com estande na Feira da UFMG encurta o tempo de recrutamento para engenheiros de minas, químicos, "
+                f"metalúrgicos e mecânicos, consolidando a marca empregadora da Carmeuse frente aos concorrentes do setor."
+            )
+        elif key == "hotmart" or (p25 == "Sim" and p26 == "Sim" and "ouro" in str(c26).lower()):
             diag = (
                 f"Histórico Consolidado na Feira UFMG:\n"
                 f"- 2024: Participação {p24} (Cota {c24})\n"
