@@ -3,6 +3,8 @@
 
 # Arquivos gerados localmente (dossiês Word)
 output_dossies/*.docx
+*.docx
+*_text.txt
 !output_dossies/.gitkeep
 
 # Python cache

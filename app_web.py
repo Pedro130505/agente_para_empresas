@@ -10,7 +10,8 @@ if hasattr(sys.stdout, "reconfigure"):
 from config import GEMINI_API_KEY, GEMINI_MODEL, OUTPUT_DIR
 from data_loader import load_companies_data, find_or_create_company
 from ai_analyzer import analyze_company
-from docx_generator import generate_one_page_docx
+from docx_generator import generate_one_page_docx, generate_post_meeting_docx
+from student_analyzer import analyze_student_base
 
 # Configuração da Página do Streamlit
 st.set_page_config(
@@ -564,23 +565,66 @@ if nome_final:
         
     st.markdown("</div>", unsafe_allow_html=True)
 
+    # Seleção da Modalidade do Dossiê
+    st.markdown("---")
+    st.markdown("#### 📑 Selecione a Modalidade do Dossiê:")
+    tipo_dossie_ui = st.radio(
+        "Qual documento você deseja gerar?",
+        options=[
+            "🎯 Dossiê Pré-Reunião (Prospecção Comercial & Pitch de Vendas — 3 Páginas)",
+            "📊 Dossiê Pós-Reunião (Público-Alvo Filtrado, Pipeline de Formatura & Iniciativas UFMG)"
+        ],
+        index=0,
+        label_visibility="collapsed"
+    )
+
+    is_pos = "Pós-Reunião" in tipo_dossie_ui
+    
+    if is_pos:
+        st.info("💡 **Dossiê Pós-Reunião:** Cruza os cursos-alvo com a base real de 7.842 alunos da UFMG, detalha duração de estágio/trainee, ciclos seletivos, atuação prévia (PET, laboratórios) e equipes de extensão que mais agregam (Fórmula SAE, Baja, Milhagem, etc.).")
+    else:
+        st.info("💡 **Dossiê Pré-Reunião:** Foco em inteligência competitiva, presença em MG/BH, histórico em feiras de carreiras da Poli USP e PUC Minas, playbook de vendas e quebra de objeções.")
+
     # Botão de Ação Principal
     col_btn, _ = st.columns([1, 0.01])
     with col_btn:
-        btn_gerar = st.button("🚀 Gerar Dossiê Estratégico Completo (3 Páginas em Word)", type="primary", use_container_width=True)
+        btn_label = "🚀 Gerar Dossiê Pós-Reunião (Público, Pipeline & Iniciativas UFMG)" if is_pos else "🚀 Gerar Dossiê Pré-Reunião (3 Páginas em Word)"
+        btn_gerar = st.button(btn_label, type="primary", use_container_width=True)
         
     if btn_gerar:
         status_box = st.empty()
         progresso = st.progress(0, text="Iniciando inteligência de mercado...")
         
         try:
-            progresso.progress(25, text="🔍 Mapeando produtos, operações em MG, polos e concorrentes via Google Gemini...")
             comp_data = find_or_create_company(nome_final, companies_list)
             
-            ai_data = analyze_company(comp_data)
+            if is_pos:
+                progresso.progress(20, text="🔍 Mapeando programas de estágio, trainee, atuação na UFMG e ciclos seletivos...")
+                ai_data = analyze_company(comp_data, tipo_dossie="pos_reuniao")
+                
+                progresso.progress(50, text="📊 Filtrando base de estudantes da UFMG (7.842 alunos cadastrados)...")
+                student_stats = analyze_student_base(nome_final)
+                
+                progresso.progress(75, text="📝 Formatando Dossiê Pós-Reunião em Word (.docx) com tabelas de público e pipeline...")
+                output_file = generate_post_meeting_docx(comp_data, ai_data, student_stats)
+            else:
+                progresso.progress(25, text="🔍 Mapeando produtos, operações em MG, polos e concorrentes via Google Gemini...")
+                ai_data = analyze_company(comp_data, tipo_dossie="pre_reuniao")
+                
+                progresso.progress(70, text="📝 Estruturando documento Word com padrão executivo e dados de feiras...")
+                output_file = generate_one_page_docx(comp_data, ai_data)
+                student_stats = None
             
-            progresso.progress(70, text="📝 Estruturando documento Word com padrão executivo e dados de feiras...")
-            output_file = generate_one_page_docx(comp_data, ai_data)
+            # Copia para Desktop
+            try:
+                import shutil
+                desktop_dir = Path(os.environ.get("USERPROFILE", "")) / "OneDrive" / "Desktop"
+                if not desktop_dir.exists():
+                    desktop_dir = Path(os.environ.get("USERPROFILE", "")) / "Desktop"
+                if desktop_dir.exists():
+                    shutil.copy2(output_file, desktop_dir / output_file.name)
+            except Exception:
+                pass
             
             progresso.progress(100, text="✅ Dossiê concluído com sucesso!")
             st.balloons()
@@ -588,58 +632,125 @@ if nome_final:
             with open(output_file, "rb") as f:
                 docx_bytes = f.read()
                 
+            prefix_tipo = "Pós-Reunião" if is_pos else "Pré-Reunião"
             st.markdown(f"""
             <div style="background: #e6f6ed; border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px; text-align: center; margin: 20px 0;">
-                <h3 style="color: #0f7642; margin: 0 0 6px 0;">🎉 Dossiê Estratégico de {nome_final} Pronto!</h3>
-                <p style="color: #166534; margin: 0;">O documento executivo de 3 páginas foi formatado e está pronto para subsidiar sua reunião.</p>
+                <h3 style="color: #0f7642; margin: 0 0 6px 0;">🎉 Dossiê {prefix_tipo} de {nome_final} Pronto!</h3>
+                <p style="color: #166534; margin: 0;">O documento executivo formatado foi salvo e também enviado para sua Área de Trabalho (Desktop).</p>
             </div>
             """, unsafe_allow_html=True)
             
             # Botão de Download Destaque Laranja
+            clean_name_dl = nome_final.replace(' ', '_')
+            file_dl_name = f"Dossie_PosReuniao_{clean_name_dl}.docx" if is_pos else f"Dossie_Estrategico_{clean_name_dl}.docx"
             st.download_button(
-                label=f"📥 Baixar Dossiê Executivo de {nome_final} (.docx)",
+                label=f"📥 Baixar Dossiê {prefix_tipo} de {nome_final} (.docx)",
                 data=docx_bytes,
-                file_name=f"Dossie_Estrategico_{nome_final.replace(' ', '_')}.docx",
+                file_name=file_dl_name,
                 mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 type="primary",
                 use_container_width=True
             )
             
-            # Síntese Executiva em Abas
-            st.markdown("<br><h4 style='color: var(--azul-escuro);'>📋 Síntese Executiva para a Reunião Comercial:</h4>", unsafe_allow_html=True)
-            tab1, tab2, tab3, tab4 = st.tabs([
-                "🏢 1.0 Visão Geral & Concorrentes",
-                "🏭 2.0 Presença em Minas Gerais & BH",
-                "📊 5.0 Feiras Verificadas (Poli USP & PUC)",
-                "🎯 7.0 Playbook de Vendas & Objeções"
-            ])
-            
-            with tab1:
-                st.markdown(f"<div style='background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;'>{ai_data.get('resumo_extenso', 'Informação disponível no Word.')}</div>", unsafe_allow_html=True)
+            if is_pos and student_stats:
+                # Dashboard de Métricas do Alvo UFMG
+                st.markdown("<br><h4 style='color: var(--azul-escuro);'>📊 Inteligência de Público Filtrada (Base UFMG):</h4>", unsafe_allow_html=True)
+                col_m1, col_m2, col_m3, col_m4 = st.columns(4)
+                with col_m1:
+                    st.metric("Total no Perfil Alvo", f"{student_stats.get('total_target', 0):,} alunos".replace(",", "."))
+                with col_m2:
+                    st.metric("Aderência na Base Total", f"{student_stats.get('pct_target', 0)}%")
+                with col_m3:
+                    st.metric("Abertos a Propostas", f"{student_stats.get('pct_abertos', 0)}%")
+                with col_m4:
+                    st.metric("Volume Ativo", f"{student_stats.get('total_abertos', 0):,} alunos".replace(",", "."))
+
+                # Síntese Executiva em Abas Pós-Reunião
+                st.markdown("<br><h4 style='color: var(--azul-escuro);'>📋 Síntese do Dossiê Pós-Reunião:</h4>", unsafe_allow_html=True)
+                tab1, tab2, tab3, tab4 = st.tabs([
+                    "🎓 1.0 Cursos Alvo & Pipeline",
+                    "🏛️ 2.0 Atuação & Iniciativas UFMG",
+                    "⏳ 3.0 Estágio, Trainee & Ciclos",
+                    "🎯 4.0 Proposta de Cotas & Objeções"
+                ])
                 
-            with tab2:
-                st.markdown(f"<div style='background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;'>{ai_data.get('atuacao_bh_mg_detalhada', 'Informação disponível no Word.')}</div>", unsafe_allow_html=True)
-                
-            with tab3:
-                feiras_tab = ai_data.get("outras_feiras_tabela", [])
-                if feiras_tab:
-                    st.table(feiras_tab)
-                else:
-                    st.info("Sem registro prévio nas feiras da Poli USP e PUC Minas.")
+                with tab1:
+                    st.markdown("##### 📌 Cursos Prioritários e Relevância Técnica:")
+                    df_c = student_stats.get("cursos_detalhe", [])
+                    if df_c:
+                        st.dataframe(df_c, use_container_width=True)
                     
-            with tab4:
-                st.markdown("**🎯 Ganchos de Abertura:**")
-                for g in ai_data.get("guia_reuniao_ganchos", []):
-                    st.markdown(f"- {g}")
+                    st.markdown("##### ⏳ Pipeline Temporal de Formatura:")
+                    df_p = student_stats.get("pipeline_formatura", [])
+                    if df_p:
+                        st.dataframe(df_p, use_container_width=True)
+                        
+                with tab2:
+                    st.markdown("##### 🏛️ Atuação Prévia na UFMG:")
+                    st.markdown(f"<div style='background: #ffffff; padding: 18px; border-radius: 10px; border: 1px solid #e2e8f0;'>{ai_data.get('atuacao_previa_ufmg', '')}</div>", unsafe_allow_html=True)
                     
-                st.markdown("**💬 Discurso de Valor B2B (Pitch):**")
-                st.markdown(f"<div class='pitch-quote'>{ai_data.get('guia_reuniao_pitch', '')}</div>", unsafe_allow_html=True)
+                    st.markdown("##### 🏎️ Iniciativas e Equipes que Mais Agregam:")
+                    st.markdown(f"<div style='background: #ffffff; padding: 18px; border-radius: 10px; border: 1px solid #e2e8f0;'>{ai_data.get('iniciativas_ufmg_agregadoras', '')}</div>", unsafe_allow_html=True)
+
+                    st.markdown("##### 🌐 Radar dos Alunos & Top of Mind:")
+                    st.markdown(f"<div style='background: #ffffff; padding: 18px; border-radius: 10px; border: 1px solid #e2e8f0;'>{ai_data.get('inteligencia_marca_top_of_mind', '')}</div>", unsafe_allow_html=True)
+
+                with tab3:
+                    st.markdown("##### ⏳ Duração e Formato do Estágio:")
+                    st.info(ai_data.get("duracao_estagio", ""))
+                    
+                    st.markdown("##### 🚀 Duração e Formato do Trainee:")
+                    st.info(ai_data.get("duracao_trainee", ""))
+                    
+                    st.markdown("##### 📅 Meses de Abertura dos Processos Seletivos:")
+                    st.warning(ai_data.get("ciclos_processo_seletivo", ""))
+
+                with tab4:
+                    st.markdown("##### 💼 Argumentação para Fechamento de Cota / Upsell:")
+                    st.markdown(f"<div class='pitch-quote'>{ai_data.get('roteiro_fechamento_cotas', '')}</div>", unsafe_allow_html=True)
+                    
+                    st.markdown("##### 🛡️ Matriz de Objeções de Pós-Reunião:")
+                    obj_list = ai_data.get("matriz_objecoes_pos", [])
+                    for item in obj_list:
+                        with st.expander(f"❌ Objeção: {item.get('objecao', '')}"):
+                            st.markdown(f"💡 **Resposta:** {item.get('resposta', '')}")
+
+            else:
+                # Síntese Executiva em Abas Pré-Reunião
+                st.markdown("<br><h4 style='color: var(--azul-escuro);'>📋 Síntese Executiva para a Reunião Comercial:</h4>", unsafe_allow_html=True)
+                tab1, tab2, tab3, tab4 = st.tabs([
+                    "🏢 1.0 Visão Geral & Concorrentes",
+                    "🏭 2.0 Presença em Minas Gerais & BH",
+                    "📊 5.0 Feiras Verificadas (Poli USP & PUC)",
+                    "🎯 7.0 Playbook de Vendas & Objeções"
+                ])
                 
-                st.markdown("**🛡️ Matriz de Quebra de Objeções:**")
-                obj_list = ai_data.get("guia_reuniao_objecoes", [])
-                for item in obj_list:
-                    with st.expander(f"❌ Objeção: {item.get('objecao', '')}"):
-                        st.markdown(f"💡 **Resposta recomendada:** {item.get('resposta', '')}")
+                with tab1:
+                    st.markdown(f"<div style='background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;'>{ai_data.get('resumo_extenso', 'Informação disponível no Word.')}</div>", unsafe_allow_html=True)
+                    
+                with tab2:
+                    st.markdown(f"<div style='background: #ffffff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0;'>{ai_data.get('atuacao_bh_mg_detalhada', 'Informação disponível no Word.')}</div>", unsafe_allow_html=True)
+                    
+                with tab3:
+                    feiras_tab = ai_data.get("outras_feiras_tabela", [])
+                    if feiras_tab:
+                        st.table(feiras_tab)
+                    else:
+                        st.info("Sem registro prévio nas feiras da Poli USP e PUC Minas.")
+                        
+                with tab4:
+                    st.markdown("**🎯 Ganchos de Abertura:**")
+                    for g in ai_data.get("guia_reuniao_ganchos", []):
+                        st.markdown(f"- {g}")
+                        
+                    st.markdown("**💬 Discurso de Valor B2B (Pitch):**")
+                    st.markdown(f"<div class='pitch-quote'>{ai_data.get('guia_reuniao_pitch', '')}</div>", unsafe_allow_html=True)
+                    
+                    st.markdown("**🛡️ Matriz de Quebra de Objeções:**")
+                    obj_list = ai_data.get("guia_reuniao_objecoes", [])
+                    for item in obj_list:
+                        with st.expander(f"❌ Objeção: {item.get('objecao', '')}"):
+                            st.markdown(f"💡 **Resposta recomendada:** {item.get('resposta', '')}")
 
         except Exception as e:
             st.error(f"Ocorreu um erro ao processar: {e}")

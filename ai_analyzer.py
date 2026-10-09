@@ -59,8 +59,52 @@ Retorne ESTRITAMENTE um JSON válido com a seguinte estrutura:
 # Fallback de alta qualidade quando a API do Gemini não está disponível.
 # ==============================================================================
 
+
+POST_MEETING_PROMPT_TEMPLATE = """Você é um Analista Sênior de Inteligência Comercial e Planejamento Universitário do UFMG Hub (Mercado em Conexão - Escola de Engenharia da UFMG).
+
+Sua missão é criar um **DOSSIÊ ESTRATÉGICO PÓS-REUNIÃO DE ALTA PRECISÃO FACTUAL** para a empresa **"{nome_empresa}"**, focado em avanço de proposta de patrocínio, detalhamento de pipeline de formação e sinergia com iniciativas acadêmicas da UFMG.
+
+Contexto da Empresa na Feira UFMG:
+- Histórico: 2024 ({participou_2024}), 2025 ({participou_2025}), 2026 ({participou_2026})
+- Contato / Interlocutor: {nome_contato} | E-mail: {email}
+
+Retorne ESTRITAMENTE um JSON válido com a seguinte estrutura:
+{{
+  "resumo_executivo": "Síntese executiva densa da empresa, produtos, escala de faturamento/colaboradores e operações em MG e Brasil.",
+  "perfil_interlocutor": "Análise do perfil do interlocutor cadastrado ({nome_contato}), cargo ou área, e como conduzir a conversa técnica de avanço.",
+  "cursos_alvo_lista": ["Engenharia Mecânica", "Engenharia Elétrica", "Engenharia de Controle e Automação", "Engenharia de Produção", "Ciência da Computação"],
+  "duracao_estagio": "Quanto tempo dura o estágio nesta empresa (ex: 1 a 2 anos, 20h ou 30h semanais, modelo de rotação e efetivação).",
+  "duracao_trainee": "Quanto tempo dura o Trainee (ex: 12 a 24 meses, job rotation, mentoring com lideranças).",
+  "ciclos_processo_seletivo": "Quando abrem os processos seletivos de estágio (ex: semestral em março/agosto) e de trainee (ex: segundo semestre).",
+  "atuacao_previa_ufmg": "Histórico ou iniciativas da empresa dentro da UFMG (ex: projetos com PET, laboratórios, convênios de pesquisa, doações de kits).",
+  "iniciativas_ufmg_agregadoras": "Quais iniciativas da UFMG mais agregam para esta empresa (ex: equipes de competição automotivas Fórmula SAE, Baja SAE, Milhagem UFMG, Tesla UFMG, PETs, Empresas Juniores) e como as soluções da empresa se conectam a esses projetos na prática.",
+  "inteligencia_marca_top_of_mind": "Análise de presença e recall de marca frente aos concorrentes no imaginário dos alunos de engenharia da UFMG.",
+  "roteiro_fechamento_cotas": "Argumentação comercial orientada a dados para fechamento/upsell de cota (destacando Cota Ouro com Arena de Iniciativas e Challenge técnico).",
+  "matriz_objecoes_pos": [
+    {{"objecao": "Objeção pós-reunião 1", "resposta": "Resposta tática com dados"}},
+    {{"objecao": "Objeção pós-reunião 2", "resposta": "Resposta tática com dados"}},
+    {{"objecao": "Objeção pós-reunião 3", "resposta": "Resposta tática com dados"}},
+    {{"objecao": "Objeção pós-reunião 4", "resposta": "Resposta tática com dados"}}
+  ]
+}}
+"""
+
+
 KNOWLEDGE_BASE = {
     "stellantis": {
+        "cursos_alvo_lista": ["Engenharia Mecânica", "Engenharia de Controle e Automação", "Engenharia Elétrica", "Engenharia de Produção", "Engenharia Aeroespacial", "Engenharia de Materiais", "Ciência da Computação", "Design", "Administração"],
+        "duracao_estagio": "Duração de 1 a 2 anos com carga de 30h semanais nas unidades de Betim e Nova Lima (MG). O estagiário atua com mentoria direta de engenheiros do centro de P&D de Betim e conta com alta taxa de efetivação.",
+        "duracao_trainee": "Duração de 18 a 24 meses através do programa global GPS (Graduate Program of Stellantis), com rotação entre áreas industriais, engenharia de produto e gestão corporativa.",
+        "ciclos_processo_seletivo": "Estágio: abertura semestral contínua com turmas para o 1º semestre (inscrições em setembro/outubro) e 2º semestre (inscrições em abril/maio). Trainee: processo anual com inscrições entre julho e setembro.",
+        "atuacao_previa_ufmg": "A Stellantis possui histórico de parceria com a Escola de Engenharia da UFMG em projetos de pesquisa sobre combustão flex e sistemas de powertrain híbrido (Bio-Hybrid) com o Departamento de Engenharia Mecânica.",
+        "iniciativas_ufmg_agregadoras": "Equipes de automobilismo da UFMG: Fórmula UFMG (Fórmula SAE), Baja SAE UFMG, Tesla UFMG (Fórmula Elétrico) e Milhagem UFMG (veículo de alta eficiência). Alunos aplicam conceitos reais de dinâmica veicular e manufatura automotiva. Também agregam a Empresa Júnior Ibmec/UCJ e o PET Mecânica.",
+        "inteligencia_marca_top_of_mind": "A Stellantis ocupa a 3ª posição no recall espontâneo dos estudantes de Engenharia Mecânica e Automação (12% das menções), atrás apenas de Embraer e Vale. Manter a Cota Ouro na MEC consolida a Fiat/Stellantis como o polo automotivo preferido em Minas Gerais.",
+        "roteiro_fechamento_cotas": "Consolidação de Cota OURO: Destacar que o estande de 12m², a palestra de engenharia e o Challenge de mobilidade Bio-Hybrid conectam os líderes técnicos de Betim com os 1.800+ formandos do setor automotivo.",
+        "matriz_objecoes_pos": [
+            {"objecao": "Já estamos na PUC Carreiras com cota de destaque.", "resposta": "A presença na PUC é excelente, mas o perfil é complementar. A UFMG entrega a maior densidade de engenheiros de manufatura, mecatrônica e software de MG — o núcleo duro que o centro de P&D de Betim precisa."},
+            {"objecao": "Nosso foco é contratação via plataforma corporativa.", "resposta": "O funil digital atrai volume, mas o contato presencial na MEC com Challenge técnico garante a atração dos alunos com nota máxima no ENADE antes que recebam propostas de outros estados."}
+        ],
+
         "resumo_extenso": (
             "A Stellantis atua no ramo automotivo, com foco principal na fabricação de veículos de passeio, "
             "comerciais leves, picapes e SUVs. A empresa trabalha diretamente com as marcas Fiat, Jeep, Ram, "
@@ -184,6 +228,19 @@ KNOWLEDGE_BASE = {
         ]
     },
     "arcelormittal": {
+        "cursos_alvo_lista": ["Engenharia Metalúrgica", "Engenharia Mecânica", "Engenharia de Minas", "Engenharia Elétrica", "Engenharia de Controle e Automação", "Engenharia de Produção", "Engenharia de Materiais", "Ciência da Computação", "Administração"],
+        "duracao_estagio": "Duração de 1 a 2 anos, com carga de 20h ou 30h semanais nas unidades de BH, João Monlevade, Juiz de Fora, Sabará, Itaúna e Itatiaiuçu. Inclui mentoria, bolsa compatível com mercado siderúrgico e trilha de efetivação.",
+        "duracao_trainee": "Duração de 18 a 24 meses pelo Programa Jovens Profissionais, com imersões técnicas nas usinas integradas e projetos de descarbonização (XCarb®).",
+        "ciclos_processo_seletivo": "Estágio: entradas semestrais (março/abril e agosto/setembro). Trainee: ciclo anual aberto no segundo semestre.",
+        "atuacao_previa_ufmg": "Parcerias contínuas com o Departamento de Engenharia Metalúrgica e de Materiais da UFMG, além de desafios de inovação aberta promovidos pelo Açolab (hub do grupo em BH) voltados a estudantes.",
+        "iniciativas_ufmg_agregadoras": "Baja SAE e Fórmula UFMG (aplicação de aços estruturais especiais e tubos de alta resistência para chassis); Minas Jr (Empresa Júnior de Engenharia de Minas e Metalurgia); PET Metalúrgica e laboratórios de siderurgia.",
+        "inteligencia_marca_top_of_mind": "A ArcelorMittal disputa a preferência com Gerdau, Usiminas e Vale no setor de metais e mineração. A presença como Cota Ouro na UFMG garante que a empresa retenha os melhores metalurgistas e engenheiros de minas do estado.",
+        "roteiro_fechamento_cotas": "Consolidação da Cota OURO com o Pedro Henrique: alinhar os temas do Challenge com o Açolab e agendar palestra sobre transição para Siderurgia Verde.",
+        "matriz_objecoes_pos": [
+            {"objecao": "A reunião com o comitê exige demonstrar sinergia técnica.", "resposta": "A sinergia é imediata: a UFMG é o polo nº 1 do Brasil em engenheiros metalúrgicos e de minas com nota máxima no ENADE, atendendo Monlevade, Juiz de Fora e Serra Azul."},
+            {"objecao": "Temos processos contínuos pelo LinkedIn.", "resposta": "Plataformas digitais não proporcionam a experiência de marca presencial. Concorrentes como Gerdau e Vallourec investem fortemente no campus para atrair esses mesmos talentos."}
+        ],
+
         "resumo_extenso": (
             "A ArcelorMittal atua no setor siderúrgico e de mineração, liderando a produção de aços longos "
             "(vergalhões CA-50/60, barras, perfis, fio-máquina, arames Belgo, fibras Dramix® e steel cord), "
@@ -311,6 +368,19 @@ KNOWLEDGE_BASE = {
         ]
     },
     "hotmart": {
+        "cursos_alvo_lista": ["Ciência da Computação", "Engenharia de Software", "Sistemas de Informação", "Ciência de Dados", "Engenharia de Computação", "Engenharia de Controle e Automação", "Engenharia de Produção", "Design", "Administração"],
+        "duracao_estagio": "Duração de 1 a 2 anos com carga de 30h semanais em modelo híbrido/presencial na sede corporativa na Floresta/BH. Foco em desenvolvimento de software (backend, frontend, mobile), dados e produto.",
+        "duracao_trainee": "Duração de 12 a 18 meses nas trilhas de aceleração técnica (Junior Tech Tracks), com mentoria de engenheiros seniores e arquitetos de software.",
+        "ciclos_processo_seletivo": "Estágio Tech: processos semestrais nos meses de março/abril e agosto/setembro.",
+        "atuacao_previa_ufmg": "A Hotmart tem a UFMG como seu principal celeiro histórico. Participou como Cota Prata em 2025 e já patrocinou eventos do Diretório Acadêmico da Computação e maratonas de programação.",
+        "iniciativas_ufmg_agregadoras": "Maratona de Programação UFMG, equipes de robótica e IA do DCC, Diretório Acadêmico de Ciência da Computação, Hackathons da EE-UFMG e laboratórios de sistemas distribuídos.",
+        "inteligencia_marca_top_of_mind": "A Hotmart é referência máxima de unicórnio tech mineiro entre os alunos de computação, superando concorrentes como Kiwify e Eduzz no imaginário dos formandos de Belo Horizonte.",
+        "roteiro_fechamento_cotas": "Consolidação da Cota OURO com Henrique Furtado: desenhar live coding challenge no estande e talks técnicas de arquitetura de pagamentos (Hotpay).",
+        "matriz_objecoes_pos": [
+            {"objecao": "Já estamos confirmados na Cota Ouro, precisamos de mais dados?", "resposta": "Os dados detalhados de formatura permitem orientar as squads da Hotmart a abordar alunos específicos dos últimos períodos durante a feira."},
+            {"objecao": "Concorrência com vagas remotas do exterior pagando em dólar.", "resposta": "A Hotmart oferece comunidade de elite presencial, plano de carreira acelerado, equity e estabilidade que vagas remotas isoladas não proporcionam."}
+        ],
+
         "resumo_extenso": (
             "A Hotmart atua no setor de tecnologia, SaaS e Creator Economy, com foco principal em soluções "
             "integradas para criação, hospedagem, distribuição e monetização de produtos digitais, cursos online, "
@@ -415,6 +485,19 @@ KNOWLEDGE_BASE = {
         ]
     },
     "carmeuse": {
+        "cursos_alvo_lista": ["Engenharia de Minas", "Engenharia Química", "Engenharia Metalúrgica", "Engenharia Mecânica", "Engenharia de Produção", "Engenharia Ambiental", "Química", "Química Tecnológica", "Administração"],
+        "duracao_estagio": "Duração de 1 a 2 anos, carga de 20h ou 30h semanais nas unidades de Belo Horizonte (Raja Gabaglia), Formiga e Uberlândia (Apollo III).",
+        "duracao_trainee": "Duração de 12 a 18 meses focado em processos pirometalúrgicos de calcinação, lavra e gestão de plantas industriais.",
+        "ciclos_processo_seletivo": "Processos seletivos contínuos e semestrais no início de cada semestre letivo.",
+        "atuacao_previa_ufmg": "Nova prospecção prioritária (Greenfield); contatos acadêmicos com professores do Departamento de Engenharia de Minas e Metalurgia.",
+        "iniciativas_ufmg_agregadoras": "Empresas Juniores Minas Jr (Minas e Metalurgia) e Otimiza Jr (Engenharia Química); laboratórios de tratamento de minérios e caracterização de calcários da EE-UFMG.",
+        "inteligencia_marca_top_of_mind": "A Carmeuse enfrenta desconhecimento inicial de marca frente a mineradoras como Vale e concorrentes como Belocal/Lhoist. A MEC é a oportunidade perfeita de apresentar a empresa a mais de 2.500 alunos.",
+        "roteiro_fechamento_cotas": "Venda de Entrada (Cota Prata ou Bronze): focar no ROI direto para suprir a demanda de R$ 1,9 bi de investimentos em Formiga e Uberlândia.",
+        "matriz_objecoes_pos": [
+            {"objecao": "Somos empresa B2B e os alunos não nos conhecem.", "resposta": "Exatamente por isso o estande na MEC é indispensável: transforma a Carmeuse em marca empregadora reconhecida perante os 2.500 alunos do seu perfil técnico."},
+            {"objecao": "Nossas usinas ficam no interior de MG.", "resposta": "A sede fica no Luxemburgo em BH e muitos formandos da UFMG têm origem no interior ou buscam a vivência de planta industrial para acelerar a carreira."}
+        ],
+
         "resumo_extenso": (
             "A Carmeuse Brasil atua no setor de mineração e química industrial, sendo subsidiária do Grupo Carmeuse "
             "(multinacional belga fundada em 1860, líder global na produção de cal e derivados de calcário). "
@@ -506,7 +589,214 @@ KNOWLEDGE_BASE = {
                 "resposta": "Como a Carmeuse é uma nova prospecção no evento, podemos estruturar uma cota inicial focada em ROI direto de recrutamento, com acesso ao banco de currículos e ativação dirigida especificamente aos cursos de interesse imediato (Minas, Química, Metalúrgica e Mecânica)."
             }
         ]
-    }
+    },
+
+    "weg": {
+        "resumo_extenso": (
+            "A WEG é uma das maiores fabricantes de equipamentos elétricos do mundo, fundada em 1961 em "
+            "Jaraguá do Sul (SC). Atua na fabricação de motores elétricos, automação industrial, drives e inversores "
+            "de frequência, sistemas de geração, transmissão e distribuição de energia (GTD), tintas e vernizes industriais. "
+            "Presente em mais de 140 países, possui market cap de aproximadamente R$ 200 bilhões (B3: WEGE3) e mais de "
+            "40.000 colaboradores globais. Em Minas Gerais, possui unidades comerciais e industriais estratégicas, "
+            "além de ser fornecedora de grandes projetos de infraestrutura energética, como o recente fornecimento de "
+            "subestações compactas em SKID para a CEMIG (2026).\n\n"
+            "Seus principais concorrentes diretos no Brasil e no mundo são Siemens, ABB, Schneider Electric e Danfoss. "
+            "A WEG se destaca pela integração vertical de manufatura, altíssima eficiência energética de seus motores "
+            "(linhas W22 e W50), liderança nacional absoluta em acionamentos e forte cultura de formação de talentos internos "
+            "(o atual Diretor-Presidente, Alberto Kuba, ingressou na empresa como estagiário).\n\n"
+            "No ecossistema universitário da UFMG, a WEG nunca participou da Feira de Carreiras (MEC), o que gerou um "
+            "vazio de presença espontânea: empresas como Embraer, Vale, Stellantis e Cemig dominam a lembrança dos estudantes de "
+            "Elétrica e Automação, tornando a Feira da UFMG o canal prioritário para a WEG construir preferência de carreira no estado."
+        ),
+        "atuacao_bh_mg_detalhada": (
+            "A) POLOS NACIONAIS (FORA DE MG):\n"
+            "• Parque Fabril Central: Jaraguá do Sul (SC) — maior complexo de motores e automação da América Latina.\n"
+            "• Outras Plantas Industriais: Blumenau (SC), Guaramirim (SC), Itajaí (SC), Sertãozinho (SP), Betim (MG) e Linhares (ES).\n\n"
+            "B) PRESENÇA EM MINAS GERAIS: SIM\n"
+            "• Unidades em Betim e Belo Horizonte: Filiais comerciais, centros de assistência técnica e engenharia de aplicação.\n"
+            "• Projetos Estruturantes em MG: Fornecimento de subestações compactas de energia e transformadores para a CEMIG.\n\n"
+            "C) PRESENÇA EM BELO HORIZONTE: SIM\n"
+            "• Escritório Regional e Centro de Suporte a Clientes atendendo mineradoras, siderúrgicas e utilities industriais de MG."
+        ),
+        "programas_estagio_trainee_completo": (
+            "A) PROGRAMAS NACIONAIS:\n\n"
+            "• Programa de Estágio WEG:\n"
+            "  - Mais de 250 vagas por ciclo semestral em 6 estados (SC, SP, MG, RS, ES, PE).\n"
+            "  - Cursos-alvo: Engenharia Elétrica, Automação, Mecânica, Computação, Produção, Software, Química e Administração.\n\n"
+            "• Programa de Trainee Corporativo WEG:\n"
+            "  - Aceleração corporativa de 12 a 18 meses com job rotation e capacitação executiva internacional.\n\n"
+            "B) PROGRAMAS EM BH / MINAS GERAIS:\n\n"
+            "• Contrata estagiários em MG? SIM. Unidades de Betim/BH e projetos de campo com a CEMIG e clientes industriais.\n"
+            "• Contrata formandos em MG? SIM. A Escola de Engenharia da UFMG é a principal fonte formadora de engenheiros eletricistas e de automação."
+        ),
+        "outras_feiras_tabela": [
+            {"feira": "Workshop Integrativo (WI - Poli USP)", "status_2025": "Não", "status_2026": "Não", "detalhes": "Sem participação confirmada nas edições recentes da USP."},
+            {"feira": "PUC Carreiras (PUC Minas)", "status_2025": "Não", "status_2026": "Não", "detalhes": "Sem estande patrocinador registrado nas edições recentes."}
+        ],
+        "posicionamento_esg_inovacao": (
+            "1. Transição Energética & Eletromobilidade:\n"
+            "Pioneirismo no desenvolvimento de powertrains elétricos para ônibus e caminhões, inversores solares fotovoltaicos e aerogeradores de energia eólica.\n\n"
+            "2. Eficiência Industrial & Indústria 4.0:\n"
+            "Plataforma WEG Motion Fleet Management com sensores IoT e inteligência artificial para manutenção preditiva de ativos elétricos industriais.\n\n"
+            "3. Educação Corporativa & Impacto Comunitário:\n"
+            "Centro WEGxpert de capacitação técnica contínua e investimentos educacionais no Centro de Treinamento WEG (desde 1968), formando milhares de técnicos e engenheiros."
+        ),
+        "guia_reuniao_ganchos": [
+            "1. 'A WEG é líder incontestável em motores e automação no Brasil, mas os estudantes de Engenharia Elétrica da UFMG hoje lembram primeiro de Embraer e Vale. A MEC é a oportunidade de colocar a WEG no centro da preferência desses 340+ futuros eletricistas.'",
+            "2. 'Com o projeto recente de subestações para a CEMIG em 2026, a WEG demonstra relevância operacional direta em MG — o recrutamento de talentos da UFMG é o próximo passo natural.'",
+            "3. 'O WEGxpert foca em capacitação de alto nível. Na Arena de Iniciativas da UFMG, equipes como Tesla UFMG e Milhagem já usam inversores e motores elétricos na prática — esses alunos chegam prontos para o onboarding técnico da WEG.'"
+        ],
+        "guia_reuniao_pitch": (
+            "\"A WEG é uma referência global de excelência industrial e inovação tecnológica. No entanto, sem presença na Feira de Carreiras da UFMG, "
+            "a companhia perde a disputa espontânea de talentos para empresas que estão fisicamente no campus em contato com os mais de 7.000 alunos.\n\n"
+            "Ao ingressar na MEC com a Cota Ouro, a WEG garante não apenas um estande nobre de 12m², mas realiza uma palestra exclusiva e um Challenge técnico "
+            "ao vivo, permitindo que os engenheiros do WEGxpert avaliem na prática a capacidade analítica dos melhores formandos de Elétrica e Automação do Brasil.\""
+        ),
+        "guia_reuniao_objecoes": [
+            {"objecao": "Nunca participamos de feiras universitárias em MG.", "resposta": "Exatamente por isso a oportunidade é enorme: tela em branco, sem histórico negativo e com demanda reprimida de alunos dos melhores cursos de Elétrica e Automação do estado."},
+            {"objecao": "Nosso recrutamento é centralizado em SC.", "resposta": "A MEC constrói a intenção de candidatura e a atratividade antes do funil do Gupy. O aluno que conhece os desafios da WEG no campus se candidata ativamente para as vagas corporativas e de engenharia."},
+            {"objecao": "Já usamos plataformas digitais com bom volume de inscritos.", "resposta": "Volume digital não resolve o gargalo da triagem técnica. O Challenge na feira permite testar raciocínio técnico e capacidade de resolução ao vivo."},
+            {"objecao": "Orçamento precisa ser aprovado pela diretoria.", "resposta": "A Cota Ouro custa R$ 27.000 no valor promocional. Um único headhunter para engenheiro pleno custa de R$ 15.000 a R$ 30.000. Duas contratações diretas já pagam 100% do investimento."}
+        ],
+        "cursos_alvo_lista": [
+            "Engenharia Elétrica",
+            "Engenharia de Controle e Automação",
+            "Engenharia Mecânica",
+            "Engenharia de Computação",
+            "Engenharia de Produção",
+            "Ciência da Computação",
+            "Engenharia de Sistemas",
+            "Engenharia Química",
+            "Engenharia Aeroespacial",
+            "Administração"
+        ],
+        "duracao_estagio": "Duração de 1 a 2 anos, carga horária de 20h ou 30h semanais. Programa ativo desde 1973 com bolsa auxílio, alimentação subsidiada, auxílio-transporte e alto índice histórico de efetivação para posições de engenharia plena (o próprio Diretor-Presidente começou como estagiário).",
+        "duracao_trainee": "Duração de 12 a 18 meses, com job rotation entre áreas de P&D, engenharia de aplicação, manufatura e negócios internacionais, com mentoria direta de diretores executivos.",
+        "ciclos_processo_seletivo": "Estágio: abertura semestral contínua (turma do 1º semestre com inscrições em setembro/outubro; turma do 2º semestre com inscrições em março/abril). Trainee: processo anual com inscrições no segundo semestre (julho a setembro).",
+        "atuacao_previa_ufmg": "A WEG já realizou eventos técnicos e capacitação em conjunto com o PET Elétrica (Programa de Educação Tutorial da Engenharia Elétrica) no ano anterior, além de possuir doações de motores e drives instalados em bancadas didáticas do Departamento de Engenharia Elétrica da Escola de Engenharia.",
+        "iniciativas_ufmg_agregadoras": (
+            "1. Equipe Tesla UFMG: Equipe de Fórmula Elétrico da UFMG que projeta protótipos de corrida 100% elétricos, utilizando motores elétricos, baterias e inversores com sinergia total com a WEG.\n"
+            "2. Equipe Milhagem UFMG: Projeto de eficiência energética veicular que desenvolve veículos de ultrabaixo consumo elétrico, demandando motores brushless e eletrônica de potência.\n"
+            "3. Equipes Fórmula SAE e Baja SAE: Utilização de sensores, módulos de telemetria e acionamentos.\n"
+            "4. PET Elétrica e PET Mecânica: Grupos de excelência acadêmica que formam lideranças técnicas em sistemas de potência e automação.\n"
+            "5. Empresa Júnior CPE Jr: Consultoria em projetos elétricos e automação que utiliza normas e equipamentos WEG em projetos para clientes reais."
+        ),
+        "inteligencia_marca_top_of_mind": (
+            "Na pesquisa espontânea de Top of Mind com os estudantes de Engenharia Elétrica e Automação da UFMG, Embraer lidera com 31% das menções (259 votos), seguida por Vale (24,6%), Stellantis (12%), Petrobras (10,5%), Google (7,8%) e Cemig (6,9%). "
+            "A WEG não figurou no top 15 espontâneo. Isso comprova que a marca sofre de invisibilidade no radar dos alunos da UFMG pela ausência histórica no evento — lacuna que a Cota Ouro corrige de imediato."
+        ),
+        "roteiro_fechamento_cotas": (
+            "Avanço de Proposta Comercial: Apresentar a Cota OURO como investimento de alto ROI (R$ 27.000). A Cota Ouro inclui Estande 12m², Palestra exclusiva de 50 minutos, realização do Challenge técnico (avaliação ao vivo de estudantes) e integração na Arena de Iniciativas com as equipes Tesla e Milhagem. "
+            "Como alternativa de entrada, a Cota Prata (R$ 20.250) contempla estande de 10m² e Arena de Iniciativas."
+        ),
+        "matriz_objecoes_pos": [
+            {"objecao": "A reunião precisa passar pelo RH corporativo antes de avançar.", "resposta": "Excelente. Já preparamos este dossiê com os dados filtrados de alunos e formatura exatamente para fundamentar a reunião interna. Podemos agendar uma rodada técnica direta com o RH para alinhar o formato do Challenge."},
+            {"objecao": "Nosso processo seletivo é centralizado em SC, temos poucas vagas fixas em BH.", "resposta": "O estudante da UFMG tem alta mobilidade e busca oportunidades de ponta no Brasil e exterior. Quem conhece a WEG na MEC se candidata ativamente no funil digital e aceita relocalização para SC com muito mais facilidade."},
+            {"objecao": "Já estamos no meio do ano, o timing funciona para o planejamento da WEG?", "resposta": "O momento é perfeito: a contratação para a turma do próximo semestre começa exatamente agora. Estar no evento garante o preenchimento das vagas com os melhores formandos antes que eles aceitem ofertas de outras empresas."},
+            {"objecao": "Como justificamos o ROI da Cota Ouro frente à Cota Bronze?", "resposta": "A Cota Bronze dá apenas presença visual. A Cota Ouro inclui a palestra técnica e o Challenge — transformando a participação em uma etapa prática de recrutamento que economiza milhares de reais em consultorias de atração."}
+        ]
+    },
+    "petronas": {
+        "resumo_extenso": (
+            "A PETRONAS Lubricants International (PLI) é o braço global de fabricação e comercialização de lubrificantes "
+            "da PETRONAS, a empresa nacional de petróleo e gás da Malásia (Fortune Global 500). No Brasil, opera uma das "
+            "mais modernas fábricas de lubrificantes e centro de excelência tecnológica da América Latina, "
+            "localizada em Contagem (Região Metropolitana de Belo Horizonte/MG). Produz lubrificantes de alta tecnologia "
+            "para motores e transmissões das marcas PETRONAS Syntium (com tecnologia CoolTech™ desenvolvida na Fórmula 1), "
+            "PETRONAS Urania e fluidos funcionais industriais Tutela. É a parceira técnica oficial e fornecedora de fluidos "
+            "da octacampeã mundial Mercedes-AMG PETRONAS Formula One Team.\n\n"
+            "Seus principais concorrentes diretos no Brasil são Mobil (Moove/Cosan), Shell (Raízen), Vibra (Lubrax), "
+            "Castrol (bp) e Ipiranga. A Petronas se destaca pelo complexo industrial e laboratorial próprio em Contagem (MG), "
+            "transferência direta de tecnologia das pistas da Fórmula 1 para os produtos comerciais e forte atuação em "
+            "eficiência térmica de motores e fluidos para veículos elétricos e híbridos (PETRONAS Iona).\n\n"
+            "No ecossistema universitário da UFMG, a Petronas participou da edição 2026 na Cota Bronze e Cota Prata na "
+            "PUC Carreiras. No entanto, no recall espontâneo dos estudantes, a Petrobras domina com folga as menções "
+            "(~250 citações), enquanto a Petronas registrou apenas 3 menções (0,2% do público-alvo). A evolução para a "
+            "Cota Ouro na MEC é a alavanca indispensável para transformar a marca empregadora em referência entre os formandos."
+        ),
+        "atuacao_bh_mg_detalhada": (
+            "A) POLOS NACIONAIS E INTERNACIONAIS (FORA DE MG):\n"
+            "• Sede Global: Kuala Lumpur (Malásia) e Turim (Itália - centro de P&D global de lubrificantes).\n"
+            "• Brasil / Nacional: Centros de distribuição e filiais comerciais em SP, RJ e polos agrícolas e industriais.\n\n"
+            "B) PRESENÇA EM MINAS GERAIS: SIM\n"
+            "• Complexo Industrial e Laboratório de P&D de Contagem (MG): Principal planta produtiva de lubrificantes e fluidos da companhia na América Latina, com capacidade superior a 150 milhões de litros/ano.\n\n"
+            "C) PRESENÇA EM BELO HORIZONTE E RMBH: SIM\n"
+            "• Centro Administrativo, Comercial LATAM e Laboratório Tecnológico Avançado instalados em Contagem (a menos de 20 km do campus da UFMG Pampulha)."
+        ),
+        "programas_estagio_trainee_completo": (
+            "A) PROGRAMAS NACIONAIS:\n\n"
+            "• Programa de Estágio PETRONAS Brasil:\n"
+            "  - Cursos-alvo: Engenharia Química, Engenharia Mecânica, Engenharia de Produção, Engenharia Elétrica, Química Tecnológica, Administração e Economia.\n"
+            "  - Atuação: Contagem (MG) e escritórios comerciais.\n\n"
+            "• Programa Trainee Internacional:\n"
+            "  - Formação de líderes e especialistas técnicos com atuação em manufatura, suprimentos e comercial na América Latina.\n\n"
+            "B) PROGRAMAS EM BH / MINAS GERAIS:\n\n"
+            "• Contrata estagiários em MG? SIM. Unidade fabril e laboratorial de Contagem (MG). Cursos: Eng. Química, Mecânica, Produção e Química.\n"
+            "• Contrata recém-formados em MG? SIM. A UFMG é a principal universidade de onde a empresa recruta seus engenheiros químicos e de processos industriais."
+        ),
+        "outras_feiras_tabela": [
+            {"feira": "Workshop Integrativo (WI - Poli USP)", "status_2025": "Não", "status_2026": "Não", "detalhes": "Sem participação confirmada nas edições recentes da Poli USP."},
+            {"feira": "PUC Carreiras (PUC Minas)", "status_2025": "Não", "status_2026": "Sim", "detalhes": "Participação confirmada na edição 2026 com Patrocínio Prata."}
+        ],
+        "posicionamento_esg_inovacao": (
+            "1. Tecnologia Térmica & Redução de Emissões:\n"
+            "Desenvolvimento da linha CoolTech™ que combate o superaquecimento do motor, melhorando a eficiência de combustível e reduzindo a emissão de CO2 em até 3%.\n\n"
+            "2. Eletrificação & Linha PETRONAS Iona:\n"
+            "Fluidos desenvolvidos especificamente para veículos híbridos e 100% elétricos, otimizando o arrefecimento de baterias e caixas de transmissão elétrica.\n\n"
+            "3. Sustentabilidade Operacional em MG:\n"
+            "Complexo de Contagem com programas de destinação correta de resíduos, reciclagem de embalagens plásticas e projetos de responsabilidade social com escolas da RMBH."
+        ),
+        "guia_reuniao_ganchos": [
+            "1. 'A Petronas tem uma fábrica ultramoderna e o centro tecnológico de lubrificantes da América Latina em Contagem, a poucos minutos da UFMG — porém, apenas 0,2% dos alunos a citaram espontaneamente. A Cota Ouro na MEC transforma essa proximidade geográfica em liderança de marca empregadora.'",
+            "2. 'Enquanto a Petrobras concentra a memória dos alunos no setor de petróleo, a Petronas é a marca privada global que desenvolve a tecnologia da Fórmula 1 — esse é o apelo mais atrativo do mundo para estudantes de Engenharia Mecânica e Química.'",
+            "3. 'Identificamos mais de 1.790 alunos nos cursos exatos de contratação da Petronas em Contagem na base da UFMG, com quase 80% abertos a propostas. Esse público está pronto para ser impactado no evento.'"
+        ],
+        "guia_reuniao_pitch": (
+            "\"A Petronas é uma multinacional de energia com padrão tecnológico de Fórmula 1 e mantém seu coração produtivo na América Latina instalado em Contagem. A Escola de Engenharia da UFMG forma os melhores engenheiros químicos, mecânicos e de produção do estado — exatamente os perfis que sustentam o laboratório e a planta fabril da empresa.\n\n"
+            "Ao evoluir da Cota Bronze para a Cota OURO na MEC, a Petronas sai da posição de estande estático e assume o palco: realiza uma palestra técnica de 50 minutos para falar da ciência dos fluidos na Fórmula 1 e lança um Challenge de sustentabilidade que engaja os alunos mais brilhantes do estado.\""
+        ),
+        "guia_reuniao_objecoes": [
+            {"objecao": "Já participamos da Cota Bronze em 2026, queremos manter o mesmo formato.", "resposta": "A Cota Bronze serviu para marcar presença inicial. Porém, os dados da base mostram que menos de 1% dos alunos têm recall da marca. A Cota Ouro entrega a palestra exclusiva e o Challenge, que geram conexão emocional e convertem os melhores alunos para o processo seletivo."},
+            {"objecao": "Nossa unidade fica em Contagem, os alunos têm resistência a se deslocar?", "resposta": "Ao contrário: mais de 70% dos alunos de engenharia da UFMG residem na região metropolitana ou têm fácil acesso à via expressa de Contagem. A oportunidade de trabalhar em uma planta de nível internacional com padrão global atrai maciçamente esses estudantes."},
+            {"objecao": "Já estamos na PUC Carreiras com Cota Prata.", "resposta": "Excelente. A PUC entrega perfis corporativos muito bons, mas a Escola de Engenharia da UFMG concentra a maior densidade de pesquisa laboratorial em química, tribologia e processos térmicos do estado — o público mais qualificado para a engenharia de lubrificantes."},
+            {"objecao": "Restrição de budget para upsell de cota.", "resposta": "O custo de contratação de um único engenheiro químico sênior por consultoria externa supera R$ 12.000. O investimento na Cota Ouro garante o pipeline completo de estagiários qualificados para o ano inteiro, reduzindo drasticamente o CAC de RH."}
+        ],
+        "cursos_alvo_lista": [
+            "Engenharia Química",
+            "Engenharia Mecânica",
+            "Engenharia de Produção",
+            "Engenharia Elétrica",
+            "Engenharia Metalúrgica",
+            "Engenharia de Minas",
+            "Química",
+            "Química Tecnológica",
+            "Administração",
+            "Ciências Econômicas"
+        ],
+        "duracao_estagio": "Duração de 1 a 2 anos, com carga de 30h semanais em formato híbrido/presencial na unidade fabril de Contagem (MG). O estagiário recebe bolsa auxílio compatível com o mercado de energia, vale-alimentação, plano de saúde, transporte fretado e acompanhamento de carreira estruturado.",
+        "duracao_trainee": "Duração de 18 a 24 meses com trilhas de aceleração executiva em manufatura, desenvolvimento de novos fluidos, supply chain e inteligência comercial na América Latina.",
+        "ciclos_processo_seletivo": "Estágio: abertura semestral em março/abril (turma do 2º semestre) e agosto/setembro (turma do 1º semestre seguinte). Trainee: processos bienais/anuais no início do segundo semestre.",
+        "atuacao_previa_ufmg": "A Petronas foi patrocinadora da edição MEC 2026 (Cota Bronze) e mantém relacionamento técnico com professores e pesquisadores do Departamento de Engenharia Mecânica e Química da UFMG em análises tribológicas e de viscosidade.",
+        "iniciativas_ufmg_agregadoras": (
+            "1. Equipe Fórmula UFMG (Fórmula SAE): Protótipo de corrida a combustão de alta performance cujos motores operam em rotações extremas, exigindo lubrificantes com tecnologia de Fórmula 1 e fluidos de freio de alta temperatura.\n"
+            "2. Equipe Baja SAE UFMG: Veículo off-road submetido a condições severas de poeira, lama e choque térmico, demandando graxas e fluidos de transmissão ultrarresistentes.\n"
+            "3. Equipe Milhagem UFMG: Projeto focado em reduzir atrito ao máximo para quebrar recordes de quilometragem por litro, sinergia total com a tecnologia de lubrificantes de baixo atrito Syntium.\n"
+            "4. Empresa Júnior Otimiza Jr (Engenharia Química) e Laboratórios de Tribologia e Catálise da UFMG: Alunos envolvidos em simulações de fluxo, análises físico-químicas e caracterização de fluidos industriais."
+        ),
+        "inteligencia_marca_top_of_mind": (
+            "No público-alvo de engenharia da Petronas, a Petrobras domina amplamente com 480 menções (9,1% da base), seguida por Shell/Raízen (~20 menções). "
+            "A Petronas registrou apenas 3 menções espontâneas (0,2% do público). Esse território na mente dos alunos em MG está aberto para ser conquistado, e a Cota Ouro na MEC com a palestra e o Challenge posiciona a Petronas como a multinacional privada preferida dos engenheiros químicos e mecânicos."
+        ),
+        "roteiro_fechamento_cotas": (
+            "Avanço de Proposta Comercial: Realizar o upsell de Bronze para Cota OURO. A Cota Ouro inclui estande de 12m², palestra técnica de 50 minutos no auditório, realização de Challenge exclusivo de formulação e eficiência energética e participação na Arena de Iniciativas conectando diretamente com as equipes de automobilismo universitário."
+        ),
+        "matriz_objecoes_pos": [
+            {"objecao": "A Cota Bronze já atendeu nossas necessidades na última edição.", "resposta": "A Cota Bronze deu presença passiva. Mas 99% dos alunos passaram sem saber que a Petronas tem a maior fábrica da América Latina em Contagem. A Cota Ouro traz a palestra técnica e o Challenge, convertendo visitantes em candidatos altamente preparados."},
+            {"objecao": "Nosso RH corporativo avalia presença em feiras globais, não regionais.", "resposta": "Os engenheiros que operam a planta de Contagem e os laboratórios de P&D são formados em Minas Gerais. Não é possível recrutar mão de obra técnica de classe mundial para a fábrica de Contagem sem presença física no campus da UFMG."},
+            {"objecao": "O valor da Cota Ouro representa um incremento orçamentário.", "resposta": "Esse incremento se paga na primeira contratação direta de estágio ou júnior que não demandar agência de recrutamento. Além disso, a Cota Ouro garante acesso antecipado aos currículos dos 1.700+ formandos do perfil Petronas."},
+            {"objecao": "Queremos focar mais em projetos com professores e menos em estande de feira.", "resposta": "A Cota Ouro inclui a Arena de Iniciativas, que é exatamente o espaço de conexão com os grupos de extensão, laboratórios e equipes acadêmicas (Fórmula SAE, Baja e Otimiza Jr). Une recrutamento com relacionamento acadêmico."}
+        ]
+    },
 }
 
 
@@ -664,7 +954,144 @@ def generate_fallback_analysis(company_data):
     }
 
 
-def analyze_company(company_data):
+
+
+def generate_fallback_post_meeting_analysis(company_data):
+    nome = company_data["nome"]
+    key = nome.lower().strip()
+    
+    # Se está na base de conhecimento
+    if key in KNOWLEDGE_BASE:
+        kb = KNOWLEDGE_BASE[key]
+        return {
+            "tipo_dossie": "pos_reuniao",
+            "nome": nome,
+            "resumo_executivo": kb.get("resumo_extenso", ""),
+            "perfil_interlocutor": f"Interlocutor mapeado: {company_data.get('nome_contato') or company_data.get('responsavel_2026') or 'Representante Comercial'}. Foco em conduzir o alinhamento técnico para fechamento de proposta.",
+            "cursos_alvo_lista": kb.get("cursos_alvo_lista", ["Engenharia Mecânica", "Engenharia Elétrica", "Engenharia de Controle e Automação", "Engenharia de Produção", "Ciência da Computação"]),
+            "duracao_estagio": kb.get("duracao_estagio", "Duração padrão de 1 a 2 anos com carga horária de 20h a 30h semanais e trilha de efetivação."),
+            "duracao_trainee": kb.get("duracao_trainee", "Duração de 12 a 24 meses com job rotation e desenvolvimento acelerado."),
+            "ciclos_processo_seletivo": kb.get("ciclos_processo_seletivo", "Processos seletivos de estágio com abertura semestral (março/agosto) e trainee anual no segundo semestre."),
+            "atuacao_previa_ufmg": kb.get("atuacao_previa_ufmg", "Histórico de relacionamento e atração com a Escola de Engenharia da UFMG."),
+            "iniciativas_ufmg_agregadoras": kb.get("iniciativas_ufmg_agregadoras", "Equipes de competição automotivas (Fórmula SAE, Baja SAE, Milhagem), PETs e Empresas Juniores."),
+            "inteligencia_marca_top_of_mind": kb.get("inteligencia_marca_top_of_mind", "Análise de recall espontâneo na base da UFMG frente aos concorrentes diretos."),
+            "roteiro_fechamento_cotas": kb.get("roteiro_fechamento_cotas", "Recomendação comercial de fechamento destacando Cota Ouro com Challenge e Arena de Iniciativas."),
+            "matriz_objecoes_pos": kb.get("matriz_objecoes_pos", [
+                {"objecao": "Aprovação pendente com o RH corporativo.", "resposta": "Os dados filtrados de alunos fornecem o material executivo ideal para fundamentar a reunião interna com o RH."},
+                {"objecao": "Restrição de orçamento para este ciclo.", "resposta": "O custo de contratação de um único engenheiro por headhunter supera o valor da cota, garantindo ROI positivo imediato."}
+            ])
+        }
+
+    # Fallback dinâmico para empresa nova
+    return {
+        "tipo_dossie": "pos_reuniao",
+        "nome": nome,
+        "resumo_executivo": f"A {nome} possui forte relevância em seu segmento industrial/tecnológico e demanda contínua por profissionais de engenharia e gestão de alta densidade técnica.",
+        "perfil_interlocutor": f"Interlocutor registrado: {company_data.get('nome_contato', 'Gestor Técnico')}. Conduzir a conversa com foco no gargalo de contratação de talentos.",
+        "cursos_alvo_lista": ["Engenharia Mecânica", "Engenharia Elétrica", "Engenharia de Controle e Automação", "Engenharia de Produção", "Ciência da Computação"],
+        "duracao_estagio": "Duração média de 1 a 2 anos, carga de 20h ou 30h semanais, modelo de formação prática e alta taxa de efetivação.",
+        "duracao_trainee": "Duração de 12 a 24 meses, rotação corporativa entre áreas técnicas e de gestão, aceleração para posições de liderança.",
+        "ciclos_processo_seletivo": "Estágio: abertura semestral contínua nos meses de março/abril e agosto/setembro. Trainee: abertura anual concentrada no segundo semestre.",
+        "atuacao_previa_ufmg": f"A {nome} figura no radar dos estudantes de engenharia e pode consolidar parcerias institucionais com laboratórios e grupos acadêmicos da Escola de Engenharia.",
+        "iniciativas_ufmg_agregadoras": "Equipes de competição automobilística (Fórmula SAE, Baja SAE, Milhagem UFMG, Tesla UFMG), PETs das engenharias e Empresas Juniores (CPE Jr, Minas Jr, Otimiza Jr).",
+        "inteligencia_marca_top_of_mind": f"A presença presencial no campus permite à {nome} disputar a preferência espontânea dos estudantes frente a grandes corporações tradicionais.",
+        "roteiro_fechamento_cotas": "Avanço de Proposta Comercial: Recomendação da Cota OURO como investimento de maior ROI (inclui palestra no auditório, Challenge de contratação e Arena de Iniciativas).",
+        "matriz_objecoes_pos": [
+            {"objecao": "Processo seletivo é feito apenas via Gupy / LinkedIn.", "resposta": "Plataformas digitais geram volume mas não resolvem a triagem técnica. O Challenge na feira testa competências ao vivo e atrai candidatos com nota máxima no ENADE."},
+            {"objecao": "Precisamos de aprovação da matriz / diretoria.", "resposta": "Os dados deste dossiê detalham o pipeline exato de formandos da UFMG nos cursos da empresa, servindo como justificativa executiva pronta para o comitê de patrocínio."}
+        ]
+    }
+
+
+def analyze_company_post_meeting(company_data):
+    nome = company_data["nome"]
+    api_key = GEMINI_API_KEY or os.getenv("GEMINI_API_KEY", "")
+    key = nome.lower().strip()
+
+    if key in KNOWLEDGE_BASE:
+        logger.info(f"Utilizando inteligência pós-reunião especializada da base local para {nome}.")
+        return generate_fallback_post_meeting_analysis(company_data)
+
+    if not api_key:
+        logger.warning(f"GEMINI_API_KEY não configurada. Gerando dossiê pós-reunião sintético para {nome}.")
+        return generate_fallback_post_meeting_analysis(company_data)
+
+    prompt = POST_MEETING_PROMPT_TEMPLATE.format(
+        nome_empresa=nome,
+        participou_2024=company_data.get("participou_2024", "Não"),
+        cota_2024=company_data.get("cota_2024", "N/A"),
+        participou_2025=company_data.get("participou_2025", "Não"),
+        cota_2025=company_data.get("cota_2025", "N/A"),
+        participou_2026=company_data.get("participou_2026", "Não"),
+        cota_2026=company_data.get("cota_2026", "N/A"),
+        nome_contato=company_data.get("nome_contato", "Não informado"),
+        email=company_data.get("email", "Não informado")
+    )
+
+    models_to_try = [GEMINI_MODEL, "gemini-3.6-flash", "gemini-flash-lite-latest"]
+    seen = set()
+    models_to_try = [m for m in models_to_try if not (m in seen or seen.add(m))]
+
+    import time
+    import json
+    import requests
+
+    last_error = None
+    for model_name in models_to_try:
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+                payload = {
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {"responseMimeType": "application/json"}
+                }
+                res = requests.post(url, json=payload, timeout=90)
+                res_json = res.json()
+
+                if "error" in res_json:
+                    err = res_json["error"]
+                    code = err.get("code")
+                    if code == 503 and attempt < max_retries - 1:
+                        time.sleep((attempt + 1) * 2)
+                        continue
+                    raise ValueError(f"Google API Error {code}: {err.get('message', '')}")
+
+                candidates = res_json.get("candidates", [])
+                if not candidates or "content" not in candidates[0]:
+                    raise ValueError("Resposta vazia da API do Google.")
+
+                text_resp = candidates[0]["content"]["parts"][0]["text"].strip()
+                if text_resp.startswith("```json"):
+                    text_resp = text_resp[7:]
+                if text_resp.startswith("```"):
+                    text_resp = text_resp[3:]
+                if text_resp.endswith("```"):
+                    text_resp = text_resp[:-3]
+                text_resp = text_resp.strip()
+
+                data = json.loads(text_resp)
+                data["tipo_dossie"] = "pos_reuniao"
+                data["nome"] = nome
+                logger.info(f"Análise pós-reunião gerada via Gemini ({model_name}) para {nome}!")
+                return data
+
+            except Exception as e:
+                last_error = e
+                err_str = str(e).lower()
+                if ("503" in err_str or "timeout" in err_str or "timed out" in err_str) and attempt < max_retries - 1:
+                    time.sleep((attempt + 1) * 2)
+                    continue
+                break
+
+    logger.warning(f"Erro na API para {nome} pós-reunião: {last_error}. Utilizando base de conhecimento local.")
+    return generate_fallback_post_meeting_analysis(company_data)
+
+
+def analyze_company(company_data, tipo_dossie="pre_reuniao"):
+    if tipo_dossie == "pos_reuniao":
+        return analyze_company_post_meeting(company_data)
+
     nome = company_data["nome"]
     api_key = GEMINI_API_KEY or os.getenv("GEMINI_API_KEY", "")
 

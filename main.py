@@ -60,14 +60,15 @@ def ensure_api_key():
         
     return ""
 
-def generate_single_dossier(company_name, companies_list=None, auto_open_prompt=True):
-    """Gera o dossiê estratégico de 3 páginas para uma empresa específica."""
+def generate_single_dossier(company_name, companies_list=None, auto_open_prompt=True, tipo_dossie="pre_reuniao"):
+    """Gera o dossiê estratégico (Pré-Reunião ou Pós-Reunião) para uma empresa específica."""
     comp = find_or_create_company(company_name, companies_list)
     nome = comp["nome"]
     
-    print(f"\n" + "="*60)
-    print(f" 🎯 PROCESSANDO DOSSIÊ ESTRATÉGICO: {nome.upper()}")
-    print("="*60)
+    tipo_label = "PÓS-REUNIÃO (PÚBLICO, PIPELINE & INICIATIVAS)" if tipo_dossie == "pos_reuniao" else "PRÉ-REUNIÃO (PROSPECÇÃO COMERCIAL)"
+    print(f"\n" + "="*65)
+    print(f" 🎯 PROCESSANDO DOSSIÊ {tipo_label}: {nome.upper()}")
+    print("="*65)
     
     # Exibe dados históricos se encontrados
     if comp.get("origem") == "Nova Prospecção":
@@ -80,12 +81,35 @@ def generate_single_dossier(company_name, companies_list=None, auto_open_prompt=
         if comp.get("nome_contato") or comp.get("email"):
             print(f"   • Contato: {comp.get('nome_contato', '')} ({comp.get('email', '')})")
 
-    print("\n🔍 Analisando mercado, concorrentes, polos e dados de feiras...")
-    ai_res = analyze_company(comp)
+    print(f"\n🔍 Analisando mercado, cursos-alvo e inteligência ({tipo_label})...")
+    ai_res = analyze_company(comp, tipo_dossie=tipo_dossie)
     
-    print("📝 Formatando e gerando documento Word (.docx) no padrão executivo...")
-    output_file = generate_one_page_docx(comp, ai_res)
+    if tipo_dossie == "pos_reuniao":
+        print("📊 Filtrando estatísticas reais da base de estudantes da UFMG...")
+        from student_analyzer import analyze_student_base
+        student_stats = analyze_student_base(nome)
+        print(f"   • Alunos no perfil da empresa: {student_stats.get('total_target')} ({student_stats.get('pct_target')}%)")
+        print(f"   • Abertos a propostas: {student_stats.get('total_abertos')} ({student_stats.get('pct_abertos')}%)")
+        
+        print("📝 Formatando e gerando Dossiê Pós-Reunião em Word (.docx)...")
+        from docx_generator import generate_post_meeting_docx
+        output_file = generate_post_meeting_docx(comp, ai_res, student_stats)
+    else:
+        print("📝 Formatando e gerando Dossiê Pré-Reunião em Word (.docx)...")
+        output_file = generate_one_page_docx(comp, ai_res)
     
+    # Copia automaticamente para a Área de Trabalho (Desktop) para facilidade do usuário
+    try:
+        import shutil
+        desktop_dir = Path(os.environ.get("USERPROFILE", "")) / "OneDrive" / "Desktop"
+        if not desktop_dir.exists():
+            desktop_dir = Path(os.environ.get("USERPROFILE", "")) / "Desktop"
+        if desktop_dir.exists():
+            shutil.copy2(output_file, desktop_dir / output_file.name)
+            print(f"🖥️  Cópia enviada para a Área de Trabalho: {desktop_dir / output_file.name}")
+    except Exception:
+        pass
+
     print(f"\n✅ DOSSIÊ GERADO COM SUCESSO!")
     print(f"📁 Arquivo: {output_file.resolve()}\n")
 
@@ -108,10 +132,10 @@ def generate_single_dossier(company_name, companies_list=None, auto_open_prompt=
     return output_file
 
 def run_interactive_mode():
-    """Modo interativo onde o usuário digita o nome de qualquer empresa."""
+    """Modo interativo onde o usuário digita o nome de qualquer empresa e escolhe o tipo."""
     print("\n" + "="*65)
     print(" 🤖 AGENTE DE INTELIGÊNCIA COMERCIAL — UFMG HUB / FEIRA DE CARREIRAS")
-    print("    Geração Sob Demanda de Dossiês Estratégicos (3 Páginas)")
+    print("    Geração de Dossiês: Pré-Reunião & Pós-Reunião (Público & Pipeline)")
     print("="*65)
     
     ensure_api_key()
@@ -134,7 +158,13 @@ def run_interactive_mode():
             break
 
         try:
-            generate_single_dossier(prompt_input, companies_list, auto_open_prompt=True)
+            print("\nEscolha o modelo de dossiê:")
+            print("  [1] Dossiê Pré-Reunião (Preparação de Vendas, Mercado e Objeções)")
+            print("  [2] Dossiê Pós-Reunião (Público Filtrado, Pipeline, Estágio/Trainee e Iniciativas UFMG)")
+            tipo_input = input("👉 Opção (1 ou 2, padrão 1): ").strip()
+            tipo_dossie = "pos_reuniao" if tipo_input == "2" else "pre_reuniao"
+
+            generate_single_dossier(prompt_input, companies_list, auto_open_prompt=True, tipo_dossie=tipo_dossie)
             print("-" * 65)
         except Exception as e:
             logger.error(f"Erro ao gerar dossiê para '{prompt_input}': {e}", exc_info=True)
