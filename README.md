@@ -69,7 +69,7 @@ O sistema conta com dois modos especializados de inteligência comercial:
 ## 📁 Arquivos do Projeto
 
 ```text
-agente_para_empresas/
+ufmg-hub-dossies/
 ├── INICIAR.bat                   # 🚀 CLIQUE AQUI PARA ABRIR O PROGRAMA NO WINDOWS
 ├── Gerar_Dossie.bat              # Atalho alternativo
 ├── app_web.py                    # Interface visual oficial (Streamlit)
