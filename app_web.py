@@ -11,7 +11,20 @@ from config import GEMINI_API_KEY, GEMINI_MODEL, OUTPUT_DIR
 from data_loader import load_companies_data, find_or_create_company
 from ai_analyzer import analyze_company
 from docx_generator import generate_one_page_docx, generate_post_meeting_docx
-from student_analyzer import analyze_student_base
+from student_analyzer import (
+    analyze_student_base,
+    MACRO_AREAS_COURSES,
+    MACRO_INICIATIVAS_UFMG,
+    OPCOES_CICLOS_SELETIVOS,
+    OPCOES_ATUACAO_UFMG,
+    OPCOES_DURACAO_ESTAGIO,
+    OPCOES_DURACAO_TRAINEE,
+    courses_from_macro_areas,
+    get_default_macro_areas,
+    get_default_initiatives,
+    get_default_ciclos,
+    get_default_atuacao
+)
 
 # Configuração da Página do Streamlit
 st.set_page_config(
@@ -580,15 +593,110 @@ if nome_final:
 
     is_pos = "Pós-Reunião" in tipo_dossie_ui
     
+    selected_macro_areas = []
+    target_courses_selected = []
+    selected_ciclos = []
+    selected_atuacao = []
+    detalhe_atuacao = ""
+    selected_iniciativas = []
+    selected_estagio = ""
+    selected_trainee = ""
+
     if is_pos:
-        st.info("💡 **Dossiê Pós-Reunião:** Cruza os cursos-alvo com a base real de 7.842 alunos da UFMG, detalha duração de estágio/trainee, ciclos seletivos, atuação prévia (PET, laboratórios) e equipes de extensão que mais agregam (Fórmula SAE, Baja, Milhagem, etc.).")
+        st.markdown("""
+        <div style="background: #f8fafc; border: 2px solid #57a0bc; border-radius: 14px; padding: 22px; margin: 18px 0; box-shadow: 0 4px 16px rgba(2, 76, 118, 0.08);">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                <span style="font-size: 1.4rem;">📋</span>
+                <div>
+                    <h3 style="color: #024c76; margin: 0; font-size: 1.25rem;">Questionário Pós-Reunião (Alinhamento Comercial)</h3>
+                    <p style="color: #64748b; margin: 0; font-size: 0.88rem;">Confirme ou ajuste as respostas colhidas com a empresa antes de gerar o dossiê executivo.</p>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        # 1. Macro Áreas de Cursos
+        st.markdown("##### 1️⃣ Quais os cursos-alvo dessa empresa? *(Macro Áreas)*")
+        default_areas = get_default_macro_areas(nome_final)
+        selected_macro_areas = st.multiselect(
+            "Selecione as Macro Áreas de contratação prioritárias:",
+            options=list(MACRO_AREAS_COURSES.keys()),
+            default=default_areas,
+            help="Cada macro área agrupa cursos correlatos da UFMG para filtrar a base de 7.842 alunos."
+        )
+        target_courses_selected = courses_from_macro_areas(selected_macro_areas)
+        if not target_courses_selected:
+            st.warning("⚠️ Selecione pelo menos uma macro área para podermos filtrar a base de alunos.")
+
+        st.markdown("---")
+        
+        # 2. Quando abrem os processos seletivos
+        st.markdown("##### 2️⃣ Quando abrem os processos seletivos? *(Ciclos de Contratação)*")
+        default_ciclos = get_default_ciclos(nome_final)
+        selected_ciclos = st.multiselect(
+            "Selecione as épocas do ano em que a empresa costuma recrutar:",
+            options=OPCOES_CICLOS_SELETIVOS,
+            default=default_ciclos,
+            help="Alinha a divulgação na Feira de Carreiras com os meses de abertura de vagas da organização."
+        )
+
+        st.markdown("---")
+
+        # 3. Já atuam dentro da UFMG de alguma forma?
+        st.markdown("##### 3️⃣ Eles já atuam dentro da UFMG de alguma forma? *(Histórico Institucional)*")
+        default_atuacao = get_default_atuacao(nome_final)
+        selected_atuacao = st.multiselect(
+            "Selecione o relacionamento histórico da empresa com o campus da UFMG:",
+            options=OPCOES_ATUACAO_UFMG,
+            default=default_atuacao,
+            help="Mapeia se a empresa já fez palestras, doações, parcerias com PETs, feiras anteriores ou pesquisa."
+        )
+        detalhe_atuacao = st.text_input(
+            "Detalhe ou observação adicional sobre a atuação na UFMG (opcional):",
+            placeholder="Ex: A empresa já fez palestra com o PET Elétrica e doou inversores para o laboratório.",
+            help="Este texto será incluído no capítulo de histórico do documento executivo Word."
+        )
+
+        st.markdown("---")
+
+        # 4. Quais iniciativas da UFMG mais agregam
+        st.markdown("##### 4️⃣ Quais iniciativas da UFMG mais agregam para essa empresa? *(Equipes & Entidades)*")
+        default_inic = get_default_initiatives(nome_final)
+        selected_iniciativas = st.multiselect(
+            "Selecione as entidades estudantis e equipes com maior afinidade técnica:",
+            options=MACRO_INICIATIVAS_UFMG,
+            default=default_inic,
+            help="Ex: Fórmula SAE e Baja para automotivo/combustão; Tesla e Milhagem para elétrico/eficiência; EJs para gestão/TI."
+        )
+
+        st.markdown("---")
+
+        # 5 & 6. Duração do Estágio e Trainee (OPCIONAIS)
+        col_est, col_tra = st.columns(2)
+        with col_est:
+            st.markdown("##### 5️⃣ Quanto tempo dura o estágio? *(Opcional)*")
+            selected_estagio = st.selectbox(
+                "Duração do Programa de Estágio:",
+                options=OPCOES_DURACAO_ESTAGIO,
+                index=0,
+                help="Campo opcional. Se não informado, o sistema utilizará a inteligência pré-mapeada da empresa."
+            )
+        with col_tra:
+            st.markdown("##### 6️⃣ Quanto tempo dura o Trainee? *(Opcional)*")
+            selected_trainee = st.selectbox(
+                "Duração do Programa de Trainee:",
+                options=OPCOES_DURACAO_TRAINEE,
+                index=0,
+                help="Campo opcional. Se não informado, o sistema utilizará a inteligência pré-mapeada da empresa."
+            )
+
+        st.markdown("</div>", unsafe_allow_html=True)
     else:
         st.info("💡 **Dossiê Pré-Reunião:** Foco em inteligência competitiva, presença em MG/BH, histórico em feiras de carreiras da Poli USP e PUC Minas, playbook de vendas e quebra de objeções.")
 
     # Botão de Ação Principal
     col_btn, _ = st.columns([1, 0.01])
     with col_btn:
-        btn_label = "🚀 Gerar Dossiê Pós-Reunião (Público, Pipeline & Iniciativas UFMG)" if is_pos else "🚀 Gerar Dossiê Pré-Reunião (3 Páginas em Word)"
+        btn_label = "🚀 Gerar Dossiê Pós-Reunião (com as Respostas do Alinhamento)" if is_pos else "🚀 Gerar Dossiê Pré-Reunião (3 Páginas em Word)"
         btn_gerar = st.button(btn_label, type="primary", use_container_width=True)
         
     if btn_gerar:
@@ -602,8 +710,30 @@ if nome_final:
                 progresso.progress(20, text="🔍 Mapeando programas de estágio, trainee, atuação na UFMG e ciclos seletivos...")
                 ai_data = analyze_company(comp_data, tipo_dossie="pos_reuniao")
                 
-                progresso.progress(50, text="📊 Filtrando base de estudantes da UFMG (7.842 alunos cadastrados)...")
-                student_stats = analyze_student_base(nome_final)
+                # Incorpora respostas personalizadas do questionário
+                if selected_estagio and not selected_estagio.startswith("Não informado"):
+                    ai_data["duracao_estagio"] = f"{selected_estagio} — Conforme informado no alinhamento direto da reunião."
+                    
+                if selected_trainee and not selected_trainee.startswith("Não informado"):
+                    ai_data["duracao_trainee"] = f"{selected_trainee} — Conforme informado no alinhamento direto da reunião."
+                    
+                if selected_ciclos:
+                    ciclos_fmt = "Períodos de abertura informados na reunião:\n • " + "\n • ".join(selected_ciclos)
+                    ciclos_fmt += "\n\nRecomendação: Concentrar a divulgação da Feira de Carreiras para atração massiva dos candidatos nesses períodos prioritários."
+                    ai_data["ciclos_processo_seletivo"] = ciclos_fmt
+                    
+                if selected_atuacao:
+                    atuacao_fmt = "Histórico de relacionamento e atuação no campus:\n • " + "\n • ".join(selected_atuacao)
+                    if detalhe_atuacao and detalhe_atuacao.strip():
+                        atuacao_fmt += f"\n\nObservação adicional registrada: {detalhe_atuacao.strip()}"
+                    ai_data["atuacao_previa_ufmg"] = atuacao_fmt
+                    
+                if selected_iniciativas:
+                    inic_fmt = "Iniciativas e organizações estudantis priorizadas para sinergia com a empresa:\n • " + "\n • ".join(selected_iniciativas)
+                    ai_data["iniciativas_ufmg_agregadoras"] = inic_fmt
+
+                progresso.progress(50, text="📊 Filtrando base de estudantes da UFMG com os cursos selecionados...")
+                student_stats = analyze_student_base(nome_final, custom_courses=target_courses_selected if target_courses_selected else None)
                 
                 progresso.progress(75, text="📝 Formatando Dossiê Pós-Reunião em Word (.docx) com tabelas de público e pipeline...")
                 output_file = generate_post_meeting_docx(comp_data, ai_data, student_stats)
